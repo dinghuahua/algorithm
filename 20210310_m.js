@@ -1,51 +1,64 @@
 class MyPromise {
-    constructor(name, fun) {
-        // 姓名
-        this.name = name;
-        // 等待队列
-        this.queue = [];
-        this.sleepFirst(0, !1)
-    }
-    then(callback) {
-        this.queue.push(callback)
-        return this
-    }
-    pop() {
-        this.queue.forEach((fn) => {
-            fn()
-        })
-    }
-    sleepFirst(delay, isNoInit = true) {
-        return this.then(async () => {
-            await this.sleep(delay, isNoInit)
-            console.log(`Hi! This is${this.name}`)
-        })
-    }
-    sleep(delay, isNoInit = true) {
-        return this.then(async () => {
-            await new Promise((resolve) => {
-                setTimeout(resolve, 1000 * delay);
-            });
-            if (isNoInit) {
-                console.log(`Wake up after ${delay}`)
-            }
-        })
-
-    }
-    eat(meals) {
-        return this.then(() => {
-            console.log(`Eat ${meals}~`)
-        })
-    }
+  constructor(name) {
+    // 姓名
+    this.name = name
+    // 等待队列
+    this.queue = []
+    this.sleepFirst(0, !1, true)
+  }
+  /**
+   *
+   * @param {*} callback 回调方法
+   * @param {string} isTail  !0 尾部压入 !1头部压入
+   * @returns
+   */
+  then(callback, isTail = !0) {
+    if (isTail) this.queue.push(callback)
+    else this.queue.unshift(callback)
+    return this
+  }
+  popQueue() {
+    debugger
+    this.queue.reduce((pre, fn) => {
+      return pre.then(fn)
+    }, Promise.resolve())
+  }
+  sleepFirst(delay, isNoInit = true) {
+    return this.sleep(delay, isNoInit, !0)
+  }
+  sleep(delay, isNoInit = true) {
+    return this.then(() => {
+      new Promise((resolve) => {
+        setTimeout(() => {
+          if (isNoInit) {
+            console.log(`Wake up after ${delay}`)
+          }
+          resolve()
+        }, 1000 * delay)
+      })
+    })
+  }
+  eat(meals) {
+    return this.then(() => {
+      new Promise((resolve) => {
+        console.log(`Eat ${meals}~`)
+        resolve()
+      })
+    })
+  }
 }
 function CodingMain(name) {
-    return new MyPromise(name, (res) => res());
+  const _mp = new MyPromise(name)
+  //   setTimeout(() => {
+  //     console.log('====')
+  //     cm.popQueue()
+  //   }, 0)
+  return _mp
 }
 
-// console.log('======', CodingMain('Peter').sleep(3).eat('dinner'))
-// CodingMain('Peter')
-cm = CodingMain('Peter').sleep(3).eat('dinner')
-// CodingMain('Peter').eat('dinner').eat('supper')
-// CodingMain('Peter').sleepFirst(5).eat('supper')
+// cm = CodingMain('Peter')
+// cm = CodingMain('Peter').sleep(3).eat('dinner')
+// cm = CodingMain('Peter').eat('dinner').eat('supper')
+cm = CodingMain('Peter').sleepFirst(5).eat('supper')
 console.log('cm', cm.queue)
-cm.pop()
+cm.popQueue()
