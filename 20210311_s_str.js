@@ -79,6 +79,28 @@ var sortString2 = function (s) {
   }
   return res
 }
+var sortStrings3 = function (s) {
+  s = s.split('').sort().join('')
+
+  let arr = s.match(/(.)\1*/g),
+    letterCount = arr.map((item) => item.length),
+    letter = arr.map((item) => item[0]),
+    res = '',
+    l = letterCount.length
+
+  var flag = 1
+  while (res.length !== s.length) {
+    // flag 1正序遍历 -1逆序遍历
+    for (var i = flag > 0 ? 0 : l - 1; flag > 0 ? i < l : i >= 0; i += flag) {
+      if (letterCount[i]) {
+        res += letter[i]
+        letterCount[i]--
+      }
+    }
+    flag *= -1
+  }
+  return res
+}
 // console.log(sortString2('aaaabbbbcccc'))
 
 // 给你一个数组 items ，其中 items[i] = [typei, colori, namei]，描述第 i 件物品的类型、颜色以及名称。
@@ -168,6 +190,20 @@ var maxDepth = function (s) {
     } else {
       max = Math.max(max, stack.length)
       stack.pop()
+    }
+  }
+  return max
+}
+var maxDepth1 = function (s) {
+  s = s.replace(/[^()]/g, '')
+  let max = 0,
+    len = 0
+  for (var i = 0; i < s.length; i++) {
+    if (s[i] === '(') {
+      ++len
+    } else {
+      max = Math.max(max, len)
+      --len
     }
   }
   return max
