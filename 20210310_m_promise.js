@@ -4,6 +4,69 @@ class MyPromise {
     this.name = name
     // 等待队列
     this.queue = []
+    // 默认等待0s 打印 Hi
+    this.sleepFirst(0, !0)
+  }
+
+  /**
+   * 接收回调方法
+   * @param {*} callback 回调方法
+   * @param {string} isTail  !0 尾部压入 !1头部压入
+   * @returns
+   */
+  then(callback, isTail = !0) {
+    isTail ? this.queue.push(callback) : this.queue.unshift(callback)
+    return this
+  }
+
+  /**
+   * 保存的回调依次调用
+   */
+  popQueue() {
+    this.queue.reduce((pre, fn) => pre.then(fn), Promise.resolve())
+  }
+
+  /**
+   * 睡眠方法
+   * @param {*} delay  延迟时间
+   * @param {*} isInit 是否是初始化睡眠
+   * @param {*} isSleepFirst 是否是sleepFirst调用的睡眠
+   */
+  sleep(delay, isInit, isSleepFirst) {
+    return this.then(() => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          if (!isInit) {
+            console.log(`Wake up after ${delay}`)
+          } else {
+            if (isSleepFirst) {
+              console.log(`Hi! This is ${this.name}`)
+            }
+          }
+          resolve()
+        }, 1000 * delay)
+      })
+    }, !(!isInit && isSleepFirst))
+  }
+  sleepFirst(delay, isInit) {
+    return this.sleep(delay, isInit, !0)
+  }
+  eat(meals) {
+    return this.then(() => {
+      return new Promise((resolve) => {
+        console.log(`Eat ${meals}~`)
+        resolve()
+      })
+    })
+  }
+}
+
+class MyPromise1 {
+  constructor(name) {
+    // 姓名
+    this.name = name
+    // 等待队列
+    this.queue = []
     // 打印 Hi
     this.sayHi()
   }
@@ -75,7 +138,7 @@ class MyPromise {
   }
 }
 function CodingMain(name) {
-  const _mp = new MyPromise(name)
+  const _mp = new MyPromise1(name)
   setTimeout(() => {
     _mp.popQueue()
   }, 0)
