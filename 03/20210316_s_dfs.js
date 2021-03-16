@@ -13,7 +13,8 @@
  * @return {string[]}
  */
 var binaryTreePaths = function (root) {
-  let res = [], stack = []
+  let res = [],
+    stack = []
   const dfs = (root) => {
     if (!root) return
     stack.push(root.val)
@@ -27,9 +28,8 @@ var binaryTreePaths = function (root) {
     }
   }
   dfs(root)
-  return res.map(item => item.join('->'))
-
-};
+  return res.map((item) => item.join('->'))
+}
 
 var binaryTreePaths2 = function (root) {
   let res = []
@@ -45,15 +45,18 @@ var binaryTreePaths2 = function (root) {
     pre.pop()
   }
   dfs(root, [])
-  return res.map(item => item.join('->'))
-};
+  return res.map((item) => item.join('->'))
+}
 
 // 迭代实现
 var binaryTreePaths3 = function (root) {
-  let res = [], queue = [{
-    node: root,
-    path: []
-  }]
+  let res = [],
+    queue = [
+      {
+        node: root,
+        path: [],
+      },
+    ]
   while (queue.length) {
     let cur = queue.shift(),
       node = cur.node,
@@ -64,18 +67,20 @@ var binaryTreePaths3 = function (root) {
     if (!node.left && !node.right) {
       res.push([...path])
     } else {
-      if (node.left) queue.push({
-        node: node.left,
-        path: [...path]
-      })
-      if (node.right) queue.push({
-        node: node.right,
-        path: [...path]
-      })
+      if (node.left)
+        queue.push({
+          node: node.left,
+          path: [...path],
+        })
+      if (node.right)
+        queue.push({
+          node: node.right,
+          path: [...path],
+        })
     }
   }
-  return res.map(item => item.join('->'))
-};
+  return res.map((item) => item.join('->'))
+}
 
 // 给定一个二叉树，计算 整个树 的坡度 。
 // 一个树的 节点的坡度 定义即为，该节点左子树的节点之和和右子树节点之和的 差的绝对值 。如果没有左子树的话，左子树的节点之和为 0 ；没有右子树的话也是一样。空结点的坡度是 0 。
@@ -101,7 +106,8 @@ var findTilt = function (root) {
     if (!root.left && !root.right) {
       return root.val
     } else {
-      let leftSum = 0, rightSum = 0
+      let leftSum = 0,
+        rightSum = 0
       if (root.left) leftSum = dfs(root.left)
       if (root.right) rightSum = dfs(root.right)
       slope.push(Math.abs(leftSum - rightSum))
@@ -110,7 +116,7 @@ var findTilt = function (root) {
   }
   dfs(root)
   return slope.reduce((a, b) => a + b, 0)
-};
+}
 
 /**
  * Definition for a binary tree node.
@@ -125,7 +131,7 @@ var findTilt = function (root) {
  * @param {number[]} nums
  * @return {TreeNode}
  */
-var sortedArrayToBST = function (nums) {
+var sortedArrayToBSTError = function (nums) {
   let cur = new TreeNode()
 
   const dfs = (node) => {
@@ -147,5 +153,15 @@ var sortedArrayToBST = function (nums) {
     if (node.right) dfs(node.right)
   }
   return dfs(cur)
-
-};
+}
+var sortedArrayToBST = function (nums) {
+  const dfs = (nums) => {
+    if (!nums.length) return null
+    let mid = Math.floor(nums.length / 2)
+    let node = new TreeNode(nums[mid])
+    if(nums.length>1) node.left = dfs(nums.slice(0, mid ))
+    if(nums.length>2) node.right = dfs(nums.slice(mid + 1, nums.length))
+    return node
+  }
+  return dfs(nums)
+}
