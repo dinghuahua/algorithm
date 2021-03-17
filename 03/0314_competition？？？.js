@@ -45,7 +45,7 @@ var findCenter = function (edges) {
  * @param {number} extraStudents
  * @return {number}
  */
-var maxAverageRatio = function (classes, extraStudents) {
+var maxAverageRatioError = function (classes, extraStudents) {
   var map = new Map()
 
   let allPass = extraStudents,
@@ -90,7 +90,6 @@ var maxAverageRatio = function (classes, extraStudents) {
 // 5 / 8    35 / 56
 
 //                    8/13
-
 var maxAverageRatio = function (classes, extraStudents) {
   var map = new Map()
 
@@ -100,6 +99,7 @@ var maxAverageRatio = function (classes, extraStudents) {
     map.set(i, classes[i])
     let pass = classes[i][0],
       student = classes[i][1]
+
     allPass += pass
     allStudents += student
   }
@@ -132,3 +132,35 @@ console.log(
     2
   )
 )
+
+/**
+ * 1793. 好子数组的最大分数
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var maximumScore = function (nums, k) {
+  const l = nums.length
+  let left = k
+  let right = k
+  let max = 0
+  let min = nums[k]
+  while (left >= 0 && right < l) {
+    while (left && nums[left - 1] >= min) {
+      left--
+    }
+    while (right < l - 1 && nums[right + 1] >= min) {
+      right++
+    }
+    max = Math.max((right - left + 1) * min, max)
+    if (!left && right === l - 1) break
+    if (left && right < l - 1) {
+      min = Math.max(nums[left - 1], nums[right + 1])
+    } else if (left) {
+      min = Math.min(min, nums[left - 1])
+    } else {
+      min = Math.min(min, nums[right + 1])
+    }
+  }
+  return max
+}

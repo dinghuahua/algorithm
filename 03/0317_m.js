@@ -32,7 +32,7 @@ var maxArea2 = function (height) {
   return max
 }
 
-var maxArea3 = function (height) {
+var maxArea2 = function (height) {
   let max = 0
   const fn = (nums) => {
     if (nums.length <= 1) return 
@@ -52,7 +52,7 @@ var maxArea3 = function (height) {
   return max
 }
 
-var maxArea2 = function (height) {
+var maxArea3 = function (height) {
   const fn = (nums, pre) => {
     if (nums.length <= 1) return pre
     else {

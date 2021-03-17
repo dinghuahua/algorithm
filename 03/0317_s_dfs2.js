@@ -21,13 +21,15 @@ var inorderTraversal = function (root) {
   }
   dfs(root)
   return res
-};
-var inorderTraversal2 = function (root) {
+}
+var inorderTraversal2Error = function (root) {
   let res = []
-  let stack = [{
-    node: root,
-    path: []
-  }]
+  let stack = [
+    {
+      node: root,
+      path: [],
+    },
+  ]
   while (stack.length) {
     let cur = stack.unshift,
       node = cur.node,
@@ -44,9 +46,26 @@ var inorderTraversal2 = function (root) {
   }
 
   return res
-};
+}
 
-
+var inorderTraversal2 = function (root) {
+  const res = []
+  const stack = [root]
+  while (stack.length) {
+    const cur = stack.shift()
+    if (!cur) continue
+    if (cur.left) {
+      const left = cur.left
+      cur.left = null
+      stack.unshift(cur)
+      stack.unshift(left)
+    } else {
+      res.push(cur.val)
+      stack.unshift(cur.right)
+    }
+  }
+  return res
+}
 
 /**
  * Definition for a binary tree node.
@@ -71,8 +90,15 @@ var preorderTraversal = function (root) {
   }
   dfs(root)
   return res
-};
-
+}
+var preorderTraversal2 = function (root) {
+  if (!root) return []
+  return [
+    root.val,
+    ...preorderTraversal(root.left),
+    ...preorderTraversal(root.right),
+  ]
+}
 
 /**
  * Definition for a binary tree node.
@@ -97,8 +123,16 @@ var postorderTraversal = function (root) {
   }
   dfs(root)
   return res
-};
+}
 
+var postorderTraversal2 = function (root) {
+  if (!root) return []
+  return [
+    ...preorderTraversal(root.left),
+    ...preorderTraversal(root.right),
+    root.val,
+  ]
+}
 
 /**
  * Definition for a binary tree node.
@@ -114,7 +148,8 @@ var postorderTraversal = function (root) {
  * @return {number[][]}
  */
 var levelOrder = function (root) {
-  let res = [], level = 0
+  let res = [],
+    level = 0
   const pushRes = (level, val) => {
     if (!res[level]) res[level] = [val]
     else res[level].push(val)
@@ -133,4 +168,4 @@ var levelOrder = function (root) {
   }
   dfs(root)
   return res
-};
+}
