@@ -48,7 +48,16 @@ var inorderTraversal2Error = function (root) {
   return res
 }
 
-var inorderTraversal2 = function (root) {
+var inorderTraversal3 = function (root) {
+  if (!root) return []
+  return [
+    ...inorderTraversal3(root.left),
+    root.val,
+    ...inorderTraversal3(root.right),
+  ]
+}
+// 迭代
+var inorderTraversal4 = function (root) {
   const res = []
   const stack = [root]
   while (stack.length) {
@@ -66,7 +75,6 @@ var inorderTraversal2 = function (root) {
   }
   return res
 }
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -99,7 +107,19 @@ var preorderTraversal2 = function (root) {
     ...preorderTraversal(root.right),
   ]
 }
-
+// 迭代
+var preorderTraversal3 = function (root) {
+  const res = [];
+  const stack = [root];
+  while (stack.length) {
+    const cur = stack.shift();
+    if (!cur) continue;
+    res.push(cur.val);
+    stack.unshift(cur.right);
+    stack.unshift(cur.left);
+  }
+  return res;
+};
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -128,12 +148,23 @@ var postorderTraversal = function (root) {
 var postorderTraversal2 = function (root) {
   if (!root) return []
   return [
-    ...preorderTraversal(root.left),
-    ...preorderTraversal(root.right),
+    ...postorderTraversal2(root.left),
+    ...postorderTraversal2(root.right),
     root.val,
   ]
 }
 
+var postorderTraversal3 = function (root) {
+  let res = [], stack = [root]
+  while (stack.length) {
+    let cur = stack.shift()
+    if (!cur) continue
+    stack.unshift(cur.left)
+    stack.unshift(cur.right)
+    res.unshift(cur.val)
+  }
+  return res
+}
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {
@@ -169,3 +200,49 @@ var levelOrder = function (root) {
   dfs(root)
   return res
 }
+
+var levelOrder2 = function (root) {
+  let res = []
+  const dfs = (node, level) => {
+    if (!node) return
+    if (!res[level]) res[level] = []
+    if (!node.left && !node.right) {
+      res[level].push(node.val)
+    } else {
+      res[level].push(node.val)
+      ++level
+      dfs(node.left, level)
+      dfs(node.right, level)
+    }
+  }
+  dfs(root, 0)
+  return res
+}
+var levelOrder3 = function (root) {
+  let res = []
+  const dfs = (node, level = 0) => {
+    if (!node) return
+    if (!res[level]) res[level] = []
+    res[level].push(node.val)
+    dfs(node.left, level + 1)
+    dfs(node.right, level + 1)
+  }
+  dfs(root)
+  return res
+}
+// 迭代
+var levelOrder4 = function (root) {
+  const res = [];
+  const stack = [{ node: root, level: 0 }];
+  while (stack.length) {
+    const cur = stack.shift();
+    const node = cur.node
+    const level = cur.level
+    if (!node) continue;
+    if (!res[level]) res[level] = []
+    res[level].push(node.val);
+    stack.unshift({ node: node.right, level: level + 1 });
+    stack.unshift({ node: node.left, level: level + 1 });
+  }
+  return res;
+};
