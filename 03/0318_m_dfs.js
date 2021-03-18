@@ -91,3 +91,21 @@ var GetImportance = function (employees, id) {
   dfs(id)
   return sum
 };
+
+var GetImportance2 = function (employees, id) {
+  var map = new Map()
+  const dfs = (id) => {
+    const cur = map.get(id)
+    if (!cur) return
+    const ids = cur[1]
+    return cur[0] + ids.reduce((pre, item) => {
+      pre + dfs(item)
+    },0)
+
+  }
+  for (var i = 0; i < employees.length; i++) {
+    const e = employees[i]
+    map.set(e.id, [e.importance, e.subordinates])
+  }
+  return dfs(id)
+}
