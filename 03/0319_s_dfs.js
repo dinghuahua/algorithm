@@ -260,6 +260,7 @@ var maxDepth2 = function (root) {
  * }
  */
 /**
+ * 🌟🌟🌟🌟🌟
  * 剑指 Offer 55 - II. 平衡二叉树
  * @param {TreeNode} root
  * @return {boolean}
