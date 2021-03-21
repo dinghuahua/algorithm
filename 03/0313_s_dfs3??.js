@@ -74,4 +74,38 @@ const fn3 = (s) => {
   return res
 }
 
+const fn3 = (s) => {
+  const stack = [
+    {
+      pre: '',
+      next: s,
+    },
+  ]
+  const res = []
+
+  //next有值，说明字符还没取完
+  while (stack.length) {
+    const cur = stack.shift(),
+      pre = cur.pre,
+      next = cur.next,
+      l = next.length
+
+    let preStr = pre.join(',')
+    if (!map.has(preStr)) {
+      preArr.set(preStr, 1)
+    } else continue
+    let sum = pre.reduce((a, b) => a + b, 0)
+    if (!map.has(sum)) map.set(sum, 1)
+    if (!l) continue
+
+    for (let i = 0; i < l; i++) {
+      stack.unshift({
+        pre: [...pre, next[i]],
+        next: [...next.slice(0, i), ...next.slice(i + 1)],
+      })
+    }
+  }
+  return res
+}
+
 console.log(fn('abcd'))

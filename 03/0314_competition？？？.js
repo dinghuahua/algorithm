@@ -86,7 +86,7 @@ var maxAverageRatioError = function (classes, extraStudents) {
 // 3 / 5   18/30
 // 4 / 6    20/30
 
-// 4/7    32/56
+// 4 / 7    32/56
 // 5 / 8    35 / 56
 
 //                    8/13
@@ -132,6 +132,34 @@ console.log(
     2
   )
 )
+
+var maxAverageRatio = function (classes, extraStudents) {
+  classes.sort(([x, y], [m, n]) => {
+    const v1 = (y - x) / (y * (y + 1))
+    const v2 = (n - m) / (n * (n + 1))
+    return v2 - v1
+  })
+  const l = classes.length
+  const total = classes.map((item) => item[1])
+  const dis = classes.map((item) => item[1] - item[0])
+  const indexs = classes.map((i, index) => index)
+  const calc = (i) => {
+    return dis[i] / (total[i] * (total[i] + 1))
+  }
+  while (extraStudents--) {
+    total[indexs[0]]++
+    let i = 0
+
+    while (i < l - 1 && calc(indexs[i]) < calc(indexs[i + 1])) {
+      ;[indexs[i], indexs[i + 1]] = [indexs[i + 1], indexs[i]]
+      i++
+    }
+  }
+  const sum = indexs.reduce((sum, item) => {
+    return sum + (total[item] - dis[item]) / total[item]
+  }, 0)
+  return sum / l
+}
 
 /**
  * 1793. 好子数组的最大分数

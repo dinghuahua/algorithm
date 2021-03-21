@@ -58,6 +58,7 @@ var modifyString2 = function (s) {
   }
   return modifyStr
 }
+// 无需考虑边界，undefined 不影响结果
 var modifyString3 = function (s) {
   let modifyStr = '',
     len = s.length
@@ -69,12 +70,12 @@ var modifyString3 = function (s) {
       let v = 97
       while (
         String.fromCharCode(v) === modifyStr[i - 1] ||
-        String.fromCharCode(v) !== s[i + 1]
+        String.fromCharCode(v) === s[i + 1]
       ) {
         v++
       }
 
-      modifyStr += curChar
+      modifyStr += String.fromCharCode(v)
     }
   }
   return modifyStr
@@ -89,22 +90,23 @@ var modifyString3 = function (s) {
  * @return {boolean}
  */
 var buddyStrings = function (a, b) {
-    if (a.length !== b.length) return false
-    let diff = []
-    for (var i = 0; i < a.length; i++) {
-        if (a[i] !== b[i]) {
-            diff.push([a[i], b[i]])
-        }
+  if (a.length !== b.length) return false
+  let diff = []
+  for (var i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      diff.push([a[i], b[i]])
     }
-    if (!diff.length) {
-        if (!/([a-z]).*\1/.test(a)) return false
-        return true
-    }
-    if (diff.length !== 2) return false
-    let first = diff[0], second = diff[1]
-    if (first[0] !== second[1] || first[1] !== second[0]) return false
+  }
+  if (!diff.length) {
+    if (!/([a-z]).*\1/.test(a)) return false
     return true
-};
+  }
+  if (diff.length !== 2) return false
+  let first = diff[0],
+    second = diff[1]
+  if (first[0] !== second[1] || first[1] !== second[0]) return false
+  return true
+}
 var buddyStrings2 = function (a, b) {
   if (a.length !== b.length) return false
   let diff = []
@@ -126,6 +128,7 @@ var buddyStrings2 = function (a, b) {
 // 子字符串 是字符串中的一个连续字符序列。
 
 /**
+ * ***
  * 1624. 两个相同字符之间的最长子字符串
  * @param {string} s
  * @return {number}
@@ -136,8 +139,8 @@ var maxLengthBetweenEqualCharacters = function (s) {
     behind = s.length - 1,
     maxLen = 0
   while (front < behind) {
-      if (s[front] !== s[behind]) {
-        // lastIndexOf indexOf 循环
+    if (s[front] !== s[behind]) {
+      // lastIndexOf indexOf 循环
       var fLast = s.lastIndexOf(s[front]),
         bFirst = s.indexOf(s[behind])
       if (fLast !== -1) {
@@ -160,13 +163,13 @@ var maxLengthBetweenEqualCharacters2 = function (s) {
   var map = new Map(),
     max = -1
 
-    // 明确目的：最长子字符串
-    // 用map 做缓存，存储字符第一次出现的问题
+  // 明确目的：最长子字符串
+  // 用map 做缓存，存储字符第一次出现的问题
   for (var i = 0; i < len; i++) {
     var char = s[i]
     if (!map.has(char)) map.set(char, i)
     else {
-      max = Math.max(max, i - map.get(char, i) - 1)
+      max = Math.max(max, i - map.get(char) - 1)
     }
   }
   return max
