@@ -81,6 +81,7 @@ var mergeTwoListsError = function (l1, l2) {
   dfs(l1, l2)
   return head.next
 }
+// 看不懂？？？？？
 var mergeTwoLists2 = function (l1, l2) {
   if (!l1) {
     return l2
