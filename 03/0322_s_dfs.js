@@ -137,12 +137,15 @@ const binarySearchTree3 = (nums = []) => {
 
 function myTree(arr) {
   this.node = binarySearchTree(arr)
-  this.add = function (num) {
+  this.addError = function (num) {
     const cur = this.find(num)
     const dfs = (node) => {
       if (!node) return
       dfs(node.left)
       if (num < node.val) {
+        // 最左边<左边<当前节点<右边<最右边
+        // 相邻的当前节点、左节点、右节点 不是排序的相邻位置
+        // 所以此方法不对
         if (node.left && node.left.val < num) {
           let newTree = new TreeNode(num)
           node.left = newTree
@@ -194,7 +197,6 @@ function myTree(arr) {
   this.console = function () {
     const dfs = (node) => {
       if (!node) return
-      console.log(node.val)
       dfs(node.left)
       console.log(node.val)
       dfs(node.right)
@@ -206,7 +208,10 @@ function myTree(arr) {
 function myTree2(arr) {
   this.node = binarySearchTree2(arr)
   this.add = function (num) {
-    const cur = this.find(num)
+    // 添加为叶子节点
+    //      7
+    // 4      11
+    // 3             6
     const dfs = (node) => {
       if (!node) return new TreeNode(num)
       if (node.val > num) {
@@ -258,14 +263,26 @@ function myTree2(arr) {
     }
     dfs(this.node)
   }
+  this.spaceConsole = function () {
+    let res = []
+    const dfs = (node, level = 0) => {
+      if (!node) return
+      if (!res[level]) res[level] = []
+      res[level].push(node.val)
+      dfs(node.left, level + 1)
+      dfs(node.right, level + 1)
+    }
+    dfs(this.node)
+    console.log(res)
+  }
 }
 
-let tree = new myTree([1, 5, 7, 2, 4, 3, 8, 10, 9, 16, 11])
-tree.console()
-tree.add(6)
+// let tree = new myTree([1, 5, 7, 2, 4, 3, 8, 10, 9, 16, 11])
+// tree.console()
+// tree.addError(6)
 // tree.console()
 
-// let tree1 = new myTree2([1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11])
-// tree1.console()
+let tree1 = new myTree2([1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11])
+tree1.spaceConsole()
 // tree.find(10)
 // console.log()
