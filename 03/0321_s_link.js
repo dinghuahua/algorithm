@@ -35,9 +35,8 @@ var kthToLast = function (head, k) {
  * @param {number} k
  * @return {ListNode}
  */
-var getKthFromEnd = function(head, k) {
-
-};
+var getKthFromEnd = function (head, k) {
+}
 
 /**
  * Definition for singly-linked list.

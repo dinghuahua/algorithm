@@ -20,13 +20,13 @@
 //   }
 // }
 
-let o = { 'A': 1, 'B.A': 2, 'B.B': 3, 'CC.D.E': 4, 'CC.D.F': 5 }
+let o = { A: 1, 'B.A': 2, 'B.B': 3, 'CC.D.E': 4, 'CC.D.F': 5 }
 const transformObjError = (obj = o) => {
   let o = {}
   const dfs = (arr, o, value) => {
     let key = arr[0]
     if (arr.length > 1) {
-      let _o = o[key] = {}
+      let _o = (o[key] = {})
       dfs(arr.slice(1), _o, value)
     } else if (arr.length === 1) {
       o[key] = value
@@ -61,43 +61,43 @@ const transformObj1 = (obj = o) => {
 }
 // console.log(transformObj1())
 const codeKey = (obj = o) => {
-  const res = {};
-  const keys = Object.keys(obj);
+  const res = {}
+  const keys = Object.keys(obj)
   keys.forEach((item) => {
-    const deepKeys = item.split(".");
-    const lastKey = deepKeys.pop();
-    let curObj = res;
+    const deepKeys = item.split('.')
+    const lastKey = deepKeys.pop()
+    let curObj = res
     deepKeys.forEach((key) => {
       if (!curObj[key]) {
-        curObj[key] = {};
+        curObj[key] = {}
       }
-      curObj = curObj[key];
-    });
-    curObj[lastKey] = obj[item];
-  });
-  return res;
-};
+      curObj = curObj[key]
+    })
+    curObj[lastKey] = obj[item]
+  })
+  return res
+}
 // console.log(codeKey())
 
-
-
-// 问的算法，是写个函数，new的时候传入数组，用数组构造二叉搜索树，并实现增加，删除，查找节点的操作
-// 当成平衡二叉搜索树来做
+/**
+ * 🌟🌟🌟🌟🌟
+ * 问的算法，是写个函数，new的时候传入数组，用数组构造二叉搜索树，并实现增加，删除，查找节点的操作
+ * 当成平衡二叉搜索树来做
+ * */
 function TreeNode(val, left, right) {
-  this.val = (val === undefined ? 0 : val)
-  this.left = (left === undefined ? null : val)
-  this.right = (right === right ? null : val)
+  this.val = val === undefined ? 0 : val
+  this.left = left === undefined ? null : val
+  this.right = right === right ? null : val
 }
-const binarySearchTree = (nums = [1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11]) => {
+const binarySearchTree = (nums = []) => {
   nums = nums.sort((a, b) => a - b)
-  console.log(nums)
   if (!nums.length) return null
   // 因为在new创建树的时候，不能确定指针方向，所以创建出来的节点是没有办法进行链接的
   // 所以不能通过递归的参数传递上一个节点的指针，而是应该利用出参把新创建的节点return,
   // 在进行赋值到之前的节点的指针上
   const dfs = (arr) => {
     if (!arr.length) return null
-    const mid = ~~((arr.length + 1) / 2)
+    const mid = ~~(arr.length / 2)
     let cur = new TreeNode(arr[mid])
     if (arr.length > 1) cur.left = dfs(arr.slice(0, mid), cur.left)
     if (arr.length > 2) cur.right = dfs(arr.slice(mid + 1), cur.right)
@@ -106,20 +106,34 @@ const binarySearchTree = (nums = [1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11]) => {
   const node = dfs(nums)
   return node
 }
-const binarySearchTree = (nums = [1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11]) => {
-  nums = nums.sort((a, b) => a - b);
+const binarySearchTree2 = (nums = []) => {
+  nums = nums.sort((a, b) => a - b)
   const dfs = (arr) => {
-    if (!arr.length) return null;
-    if (arr.length === 1) return new TreeNode(root.val);
-    const mid = ~~((arr.length + 1) / 2);
-    const cur = new TreeNode(arr[mid]);
-    cur.left = dfs(arr.slice(0, mid));
-    cur.right = dfs(arr.slice(mid + 1));
-    return cur;
-  };
-  const node = dfs(nums);
-  return node;
-};
+    if (!arr.length) return null
+    if (arr.length === 1) return new TreeNode(arr[0])
+    const mid = ~~((arr.length + 1) / 2)
+    const cur = new TreeNode(arr[mid])
+    cur.left = dfs(arr.slice(0, mid))
+    cur.right = dfs(arr.slice(mid + 1))
+    return cur
+  }
+  const node = dfs(nums)
+  return node
+}
+const binarySearchTree3 = (nums = []) => {
+  nums = nums.sort((a, b) => a - b)
+  const dfs = (left, right) => {
+    if (right < left) return null
+    if (left === right) return new TreeNode(nums[left])
+    const mid = ~~((left + right) / 2)
+    const cur = new TreeNode(nums[mid])
+    cur.left = dfs(left, mid - 1)
+    cur.right = dfs(mid + 1, right)
+    return cur
+  }
+  const node = dfs(0, nums.length - 1)
+  return node
+}
 
 function myTree(arr) {
   this.node = binarySearchTree(arr)
@@ -128,31 +142,41 @@ function myTree(arr) {
     const dfs = (node) => {
       if (!node) return
       dfs(node.left)
-      if (node.left <= num && num >= node.val) {
-        let newTree = new TreeNode(num)
-        node.left = newTree
-        newTree.left = node
-        return
+      if (num < node.val) {
+        if (node.left && node.left.val < num) {
+          let newTree = new TreeNode(num)
+          node.left = newTree
+          newTree.left = node.left
+          return
+        }
+        if (!node.left) {
+          let newTree = new TreeNode(num)
+          node.left = newTree
+          return
+        }
       }
-      if (node.val <= num && num >= node.val) {
-        let newTree = new TreeNode(num)
-        node.right = newTree
-        newTree.right = node
-        return
+      if (num > node.val) {
+        if (node.right && node.right.val > num) {
+          let newTree = new TreeNode(num)
+          node.right = newTree
+          newTree.right = node.right
+          return
+        }
+        if (!node.right) {
+          let newTree = new TreeNode(num)
+          node.right = newTree
+          return
+        }
       }
       dfs(node.right)
     }
-
     if (cur === null) {
       dfs(this.node)
-      return this.node
     } else {
       return
     }
   }
-  this.del = function () {
-
-  }
+  this.del = function () {}
   this.find = function (num) {
     let cur = null
     const dfs = (node) => {
@@ -170,6 +194,7 @@ function myTree(arr) {
   this.console = function () {
     const dfs = (node) => {
       if (!node) return
+      console.log(node.val)
       dfs(node.left)
       console.log(node.val)
       dfs(node.right)
@@ -177,7 +202,70 @@ function myTree(arr) {
     dfs(this.node)
   }
 }
-let tree = new myTree()
+
+function myTree2(arr) {
+  this.node = binarySearchTree2(arr)
+  this.add = function (num) {
+    const cur = this.find(num)
+    const dfs = (node) => {
+      if (!node) return new TreeNode(num)
+      if (node.val > num) {
+        node.left = dfs(node.left)
+      } else {
+        node.right = dfs(node.right)
+      }
+      return node
+    }
+  }
+  this.del = function (num) {
+    const dfs = (root) => {
+      if (!root) return null
+      if (root.val === num) {
+        const right = root.right
+        const left = root.left
+        if (!right) return left
+        if (!left) return right
+        let leftYeaf = right
+        while (leftYeaf.left) {
+          leftYeaf = leftYeaf.left
+        }
+        leftYeaf.left = left
+        return right
+      } else if (root.val > num) {
+        root.left = dfs(root.left)
+      } else {
+        root.right = dfs(root.right)
+      }
+      return root
+    }
+    return dfs(root)
+  }
+  this.find = function (num) {
+    const dfs = (node) => {
+      if (!node) return
+      if (node.val === num) return node
+      return node.val > num ? dfs(node.left) : dfs(node.right)
+    }
+
+    return dfs(this.node)
+  }
+  this.console = function () {
+    const dfs = (node) => {
+      if (!node) return
+      dfs(node.left)
+      console.log(node.val)
+      dfs(node.right)
+    }
+    dfs(this.node)
+  }
+}
+
+let tree = new myTree([1, 5, 7, 2, 4, 3, 8, 10, 9, 16, 11])
 tree.console()
-tree.find(10)
+tree.add(6)
+// tree.console()
+
+// let tree1 = new myTree2([1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11])
+// tree1.console()
+// tree.find(10)
 // console.log()
