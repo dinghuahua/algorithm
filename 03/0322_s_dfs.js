@@ -106,6 +106,20 @@ const binarySearchTree = (nums = [1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11]) => {
   const node = dfs(nums)
   return node
 }
+const binarySearchTree = (nums = [1, 5, 7, 2, 6, 4, 3, 8, 10, 9, 16, 11]) => {
+  nums = nums.sort((a, b) => a - b);
+  const dfs = (arr) => {
+    if (!arr.length) return null;
+    if (arr.length === 1) return new TreeNode(root.val);
+    const mid = ~~((arr.length + 1) / 2);
+    const cur = new TreeNode(arr[mid]);
+    cur.left = dfs(arr.slice(0, mid));
+    cur.right = dfs(arr.slice(mid + 1));
+    return cur;
+  };
+  const node = dfs(nums);
+  return node;
+};
 
 function myTree(arr) {
   this.node = binarySearchTree(arr)
