@@ -28,3 +28,6 @@ const init = ~~(left / 2) + ~~(len / 2)
 
 上一层需要的数据 return
 下一层需要的数据 入参
+
+while  里面不要在写if
+回文 相交

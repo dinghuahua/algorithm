@@ -15,7 +15,7 @@ var reverseList = function (head) {
   let res = {}
   const dfs = (node) => {
     if (!node.next) {
-      res.next = node;
+      res.next = node
       return node
     }
     let pre = dfs(node.next)
@@ -25,22 +25,35 @@ var reverseList = function (head) {
   }
   dfs(head)
   return res.next
-};
+}
+// 尾递归
+var reverseListError = function (head, res = {}) {
+  if (!head) return null
+  if (!head.next) {
+    return head
+  }
+  reverseList(head.next, res).next = head
+  head.next = null
+  return res
+}
 
-// var reverseList = function (head) {
-//   if (!head) return null
-//   let res = {}
-//   let stack = [head]
-//   while (stack.length) { 
-//     let cur = stack.unshift()
-//     stack.unshift(cur)
-//     if (cur.next) { 
-//       cur
-//     }
-//   }
-//   return res.next
-// };
-
+var reverseList = function (head) {
+  if (!head) return null
+  let res = [],
+    cur = head
+  while (cur) {
+    const next = cur.next
+    res.unshift(cur)
+    cur = cur.next
+  }
+  let link = {}
+  res.reduce((pre, item) => {
+    pre.next = item
+    item.next = null
+    return item
+  }, link)
+  return link.next
+}
 
 /**
  * Definition for singly-linked list.
@@ -56,7 +69,9 @@ var reverseList = function (head) {
  */
 var deleteDuplicates = function (head) {
   if (!head) return null
-  let node = head, pre = head, map = new Map()
+  let node = head,
+    pre = head,
+    map = new Map()
   while (node) {
     if (map.has(node.val)) {
       pre.next = node.next
@@ -67,7 +82,7 @@ var deleteDuplicates = function (head) {
     node = node.next
   }
   return head
-};
+}
 
 /**
  * Definition for singly-linked list.
@@ -82,13 +97,17 @@ var deleteDuplicates = function (head) {
  * @return {number[]}
  */
 var reversePrint = function (head, res = []) {
-  if (!head) { return res }
-  if (!head.next) { res.push(head.val); return res }
+  if (!head) {
+    return res
+  }
+  if (!head.next) {
+    res.push(head.val)
+    return res
+  }
   reversePrint(head.next, res)
   res.push(head.val)
   return res
-};
-
+}
 
 /**
  * Definition for singly-linked list.
@@ -112,8 +131,7 @@ var hasCycle = function (head) {
     map.set(head, head.next)
     head = head.next
   }
-};
-
+}
 
 /**
  * Definition for singly-linked list.
@@ -136,7 +154,7 @@ var getDecimalValue = function (head) {
     head = head.next
   }
   return num
-};
+}
 var getDecimalValue = function (head) {
   if (!head) return 0
   if (!head.next) return head.val
@@ -163,13 +181,14 @@ var getDecimalValue = function (head) {
  */
 var removeElementsError = function (head, val) {
   if (!head) return null
-  let node = head, pre = head
+  let node = head,
+    pre = head
   while (head) {
     if (head.val === val) {
       if (head.next) {
         pre = head
-        head.val = head.next.val;
-        head.next = head.next.next;
+        head.val = head.next.val
+        head.next = head.next.next
       } else {
         pre.next = null
         break
@@ -181,7 +200,4 @@ var removeElementsError = function (head, val) {
   }
   if (node && node.val === val) node = node.next
   return node
-
-};
-
-
+}
