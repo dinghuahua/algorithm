@@ -7,6 +7,7 @@
  * }
  */
 /**
+ * 🌟🌟🌟
  * 872. 叶子相似的树
  * @param {TreeNode} root1
  * @param {TreeNode} root2
@@ -15,7 +16,7 @@
 var leafSimilar = function (root1, root2) {
   let root1End = [],
     root2End = []
-  const dfsM = (root, endArr) => {
+  const dfs = (root, endArr) => {
     if (root.left === null && root.right === null) {
       endArr.push(root.val)
       console.log(endArr)
@@ -32,7 +33,25 @@ var leafSimilar = function (root1, root2) {
   dfs(root2, root2End)
   return root1End.join(',') === root2End.join(',')
 }
-
+var leafSimilar = function (root1, root2) {
+  const dfs = (root, res = []) => {
+    if (!root) return res
+    if (!root.left && !root.right) res.push(root.val)
+    res = dfs(root.left, res)
+    res = dfs(root.right, res)
+    return res
+  }
+  return dfs(root1).join(',') === dfs(root2).join(',')
+};
+var leafSimilar = function (root1, root2) {
+  const getLeaves = function* (root) {
+    if (!root) return;
+    !root.left && !root.right && (yield root.val)
+    yield* getLeaves(root.left)
+    yield* getLeaves(root.right)
+  }
+  return [...getLeaves(root1)].join() === [...getLeaves(root2)].join()
+};
 /**
  * Definition for a binary tree node.
  * function TreeNode(val, left, right) {

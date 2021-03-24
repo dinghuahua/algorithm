@@ -100,11 +100,12 @@ var deleteNode = function (head, val) {
  */
 /**
  * 234. 回文链表
- * 进阶：你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？？？
+ * 进阶：你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？？？ 是否可以用指针
  * @param {ListNode} head
  * @return {boolean}
  */
 var isPalindrome = function (head) {
+  if (!head) return true
   let node = head, arr = []
   while (node.next) {
     arr.push(node.val)
