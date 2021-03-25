@@ -1,24 +1,21 @@
 /**
- * 141. 环形链表
+ * 141. 环形链表 [1,2]   -1
  * @param {ListNode} head
  * @return {boolean}
  */
+
 var hasCycle = function (head) {
-    if (!head || !head.next) return false
-    var map = new Map()
-    while (head) {
-        if (!head.next) return false
-        if (map.has(head)) return true
-        map.set(head, head.next)
-        head = head.next
+  if (!head || !head.next) return false
+  // 中间的前一个
+  let slow = head,
+    fast = head.next
+  // 否则会进不去循环
+  while (slow !== fast) {
+    if (!fast || !fast.next) {
+      return false
     }
-}
-var hasCycle = function (head) {
-    if (!head || !head.next) return false
-    let slow = head, fast = head
-    while (fast && !fast.next || slow !== fast) {
-        slow = slow.next
-        fast = fast.next.next
-    }
-    return slow === fast
+    slow = slow.next
+    fast = fast.next.next
+  }
+  return slow === fast && fast.next
 }

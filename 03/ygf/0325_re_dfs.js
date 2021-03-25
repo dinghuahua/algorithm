@@ -35,9 +35,12 @@ var sortedArrayToBST = function (nums) {
 var maxDepth = function (root) {
   if (!root) return 0
   if (!root.left && !root.right) return 1
-  let leftDep = 1 + maxDepth(root.left)
-  let rightDep = 1 + maxDepth(root.right)
-  return leftDep > rightDep ? leftDep : rightDep
+  // let leftDep = 1 + maxDepth(root.left)
+  // let rightDep = 1 + maxDepth(root.right)
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+  // let leftDep = 1 + maxDepth(root.left)
+  // let rightDep = 1 + maxDepth(root.right)
+  // return leftDep > rightDep ? leftDep : rightDep
 }
 
 /**
@@ -75,6 +78,7 @@ const getDep = (root) => {
   const rightDep = 1 + getDep(root.right)
   return leftDep > rightDep ? leftDep : rightDep
 }
+
 var isBalanced = function (root) {
   if (!root) return true
   if (!root.left && !root.right) return true
@@ -86,50 +90,49 @@ var isBalanced = function (root) {
   )
 }
 
-var isBalanced = function (root) {
-  const dfs = (root) => {
-    if (!root) return [true, 0]
-    if (!root.left && !root.right) return [true, 1]
-
-    let [isLeft, leftDep] = dfs(root.left)
-    let [isRight, rightDep] = dfs(root.right)
-
-    let is = Math.abs(leftDep - rightDep) <= 1
-    let dep = Math.max(leftDep, rightDep)
-    return [isLeft && isRight && is, dep + 1]
-  }
-  return dfs(root)[0]
-}
-
-var isBalanced = function (root) {
-  const dfs = (root) => {
-    if (!root) return 0
-    if (!root.left && !root.right) 1
-
-    let leftDep = dfs(root.left)
-    let rightDep = dfs(root.right)
-
-    let is = Math.abs(leftDep - rightDep) <= 1
-    let dep = Math.max(leftDep, rightDep)
-    return leftDep !== -1 && rightDep !== -1 && is ? dep + 1 : -1
-  }
-  return dfs(root) >= 0
-}
-
 /**
  * 112. 路径总和  为什么[1,2] 1 测试用例通不过  边界[] 0
  * @param {TreeNode} root
  * @param {number} targetSum
  * @return {boolean}
  */
-var hasPathSum = function (root, targetSum) {
+var hasPathSum = function (root, targetSum, pre = 0) {
   if (!root) return false
-  const dfs = (root, preNum) => {
-    if (!root) return preNum === targetSum
-    if (!root.left && !root.right) return preNum + root.val === targetSum
-    return (
-      dfs(root.left, preNum + root.val) || dfs(root.right, preNum + root.val)
-    )
+  if (!root.left && !root.right) return pre + root.val === targetSum
+  return (
+    hasPathSum(root.left, targetSum, pre + root.val) ||
+    hasPathSum(root.right, targetSum, pre + root.val)
+  )
+}
+
+const dfs = (root) => {
+  if (!root) return 0
+  if (!root.left && !root.right) return 1
+
+  let left = dfs(root.left)
+  let right = dfs(root.right)
+
+  let is = Math.abs(leftDep - rightDep) <= 1
+  let dep = Math.max(leftDep, rightDep)
+  return [isLeft && isRight && is, dep + 1]
+
+  dfs(root)[0]
+}
+
+var secondHighest = function (s) {
+  let a = -1
+  let b = -2
+  for (const n of s) {
+    const v = Number(n)
+    if (Number.isNaN(v)) {
+      continue
+    } else {
+      if (v > a) {
+        ;[a, b] = [v, a]
+      } else if (v !== a && v > b) {
+        b = v
+      }
+    }
   }
-  return dfs(root, 0)
+  return b >= 0 ? b : -1
 }
