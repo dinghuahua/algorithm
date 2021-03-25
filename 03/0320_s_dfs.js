@@ -24,7 +24,16 @@ var rangeSumBST = function (root, low, high) {
   dfs(root)
   return sum
 }
-
+var rangeSumBST1 = function (root, low, high) {
+  if (!root) return 0;
+  if (root.val > high) return rangeSumBST(root.left, low, right);
+  if (root.val < low) return rangeSumBST(root.right, low, right);
+  return (
+    root.val +
+    rangeSumBST(root.left, low, right) +
+    rangeSumBST(root.right, low, right)
+  );
+};
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -49,4 +58,17 @@ var getMinimumDifference = function(root) {
     }
     dfs(root)
     return min
+};
+var getMinimumDifference1 = function (
+  root,
+  min = Infinity,
+  pre = { val: -Infinity }
+) {
+  if (!root) return min;
+
+  min = Math.min(getMinimumDifference1(root.left, min, pre), min);
+  min = Math.min(min, root.val - pre.val);
+  pre.val = root.val;
+  min = Math.min(getMinimumDifference1(root.right, min, pre), min);
+  return min;
 };

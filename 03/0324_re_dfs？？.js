@@ -70,13 +70,25 @@ var binaryTreePaths = function (root) {
   return dfs(root)
 }
 
-var binaryTreePaths = function (root, pre = '', res = []) {
+var binaryTreePaths2 = function (root, pre = '', res = []) {
   if (!root) return res
   if (!root.left && !root.right) res.push(`${pre ? pre + '->' : ''}${root.val}`)
   res = binaryTreePaths(root.left, `${pre ? pre + '->' : ''}${root.val}`, res)
   res = binaryTreePaths(root.right, `${pre ? pre + '->' : ''}${root.val}`, res)
   return res
 }
+
+
+var binaryTreePaths3 = function (root, pre = "") {
+  if (!root) return [];
+  pre = pre ? pre + "->" : "";
+  if (!root.left && !root.right) {
+    return [`${pre}${root.val}`];
+  }
+  return binaryTreePaths(root.left, `${pre}${root.val}`).concat(
+    binaryTreePaths(root.right, `${pre}${root.val}`)
+  );
+};
 
 // 学习广度优先
 var binaryTreePaths = function (root) {
@@ -108,7 +120,13 @@ var binaryTreePaths = function (root) {
   return paths
 }
 
-const fun1 = (s) => {
+// 有重复字母的排列组合
+// 原字符串不排序的情况下
+// map 去重pre  set去掉已经在next中选择过的字母
+
+// 原字符串排序的情况下
+// 在next中选择过的字母
+const fun = (s) => {
   const map = new Map()
   const stack = [
     {
@@ -137,8 +155,68 @@ const fun1 = (s) => {
   }
   return res
 }
+const fun2 = (s) => {
+  const stack = [
+    {
+      pre: "",
+      next: s,
+    },
+  ];
+  const res = [];
+  while (stack.length) {
+    const cur = stack.shift();
+    const next = cur.next;
+    const nextLen = next.length;
+    if (!nextLen) {
+      res.push(cur.pre);
+      continue;
+    }
+    const set = new Set();
+    for (let i = 0; i < nextLen; i++) {
+      if (set.has(next[i])) continue;
+      set.add(next[i]);
+      stack.unshift({
+        pre: pre + next[i],
+        next: `${next.slice(0, i)}${next.slice(i + 1)}`,
+      });
+    }
+  }
+  return res;
+};
 
 const fun = (s) => {
+  s = s.split("").sort().join("");
+  const stack = [
+    {
+      pre: "",
+      next: s,
+    },
+  ];
+  const res = [];
+  while (stack.length) {
+    const cur = stack.shift();
+    const next = cur.next;
+    const nextLen = next.length;
+    if (!nextLen) {
+      res.push(cur.pre);
+      continue;
+    } //
+    //111112233
+    for (let i = 0; i < nextLen; i++) {
+      while (next[i] === next[i + 1]) {
+        i++;
+      }
+      if (i === nextLen) break;
+      stack.unshift({
+        pre: `${cur.pre}${next[i]}`,
+        next: `${next.slice(0, i)}${next.slice(j + 1)}`,
+      });
+    }
+  }
+  return res;
+};
+
+const fun3 = (s) => {
   s = s.split('').sort().join('')
   const stack = [
     {
@@ -184,20 +262,34 @@ console.log(res, res1)
  * @param {TreeNode} root
  * @return {TreeNode}
  */
-var increasingBST = function(root) {
-    const head = {}
-    let pre = head
-    const dfs = (node)=>{
-        if(!node) return 
-        dfs(node.left)
-        pre.right = node
-        node.left = null
-        pre = node
-        dfs(node.right)
-    }
-    dfs(root)
-    return head.right
+var increasingBST = function (root) {
+  const head = {}
+  let pre = head
+  const dfs = (node) => {
+    if (!node) return
+    dfs(node.left)
+    pre.right = node
+    node.left = null
+    pre = node
+    dfs(node.right)
+  }
+  dfs(root)
+  return head.right
 };
+var increasingBST = function (root) {
+  if (!root) return;
+  root.right = dincreasingBSTfs(node.right);
+  if (!root.left) return root;
+  const head = increasingBST(root.left);
+  root.left = null;
+  let next = head;
+  while (next.right) {
+    next = next.right;
+  }
+  next.right = root;
+  return head;
+};
+
 
 /**
  * Definition for a binary tree node.
@@ -208,7 +300,7 @@ var increasingBST = function(root) {
  * }
  */
 /**
- * 563. 二叉树的坡度  可以尾递归嘛？？
+ * 563. 二叉树的坡度  可以尾递归嘛？？ 不可以
  * @param {TreeNode} root
  * @return {number}
  */

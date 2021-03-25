@@ -17,6 +17,65 @@ var secondHighest = function (s) {
 }
 
 /**
+ * @param {number} timeToLive
+ */
+var AuthenticationManager = function (timeToLive) {
+  this.timeToLive = timeToLive;
+  this.map = new Map()
+};
+
+/** 
+ * @param {string} tokenId 
+ * @param {number} currentTime
+ * @return {void}
+ */
+AuthenticationManager.prototype.generate = function (tokenId, currentTime) {
+  this.map.set(tokenId, currentTime + this.timeToLive)
+
+};
+
+/** 
+ * @param {string} tokenId 
+ * @param {number} currentTime
+ * @return {void}
+ */
+AuthenticationManager.prototype.renew = function (tokenId, currentTime) {
+  const time = this.map.get(tokenId)
+  // if(!time || currentTime>=time){
+  //     // 当前时间点已经过期 或者不存在
+  // } else {
+  //     this.map(tokenId,currentTime+this.timeToLive)
+  // }
+  if (time && currentTime < time) {
+    // tokenId存在 并且还没有过期
+    this.map.set(tokenId, currentTime + this.timeToLive)
+  }
+
+};
+
+/** 
+ * @param {number} currentTime
+ * @return {number}
+ */
+AuthenticationManager.prototype.countUnexpiredTokens = function (currentTime) {
+  let num = 0
+  for (let time of this.map.values()) {
+    if (time > currentTime) {
+      ++num
+    }
+  }
+  return num
+};
+
+/**
+ * Your AuthenticationManager object will be instantiated and called as such:
+ * var obj = new AuthenticationManager(timeToLive)
+ * obj.generate(tokenId,currentTime)
+ * obj.renew(tokenId,currentTime)
+ * var param_3 = obj.countUnexpiredTokens(currentTime)
+ */
+
+/**
  * 5712. 你能构造出连续值的最大数目
  * @param {number[]} coins
  * @return {number}

@@ -38,6 +38,16 @@ var middleNode1 = function (head) {
   }
   return left
 };
+var middleNode2 = function (head) {
+  if (!head && !head.next) return head;
+  let left = head,
+    right = head;
+  while (right && right.next) {
+    left = left.next;
+    right = right.next.next;
+  }
+  return left;
+};
 
 /**
  * Definition for singly-linked list.
@@ -85,7 +95,7 @@ var deleteNode = function (head, val) {
     pre = node
     node = node.next
   }
-  // 为什么不可以删除最后一个？？？
+  // 为什么不可以删除最后一个？？？ 
   // if (node.val === val) node = null
   if (node.val === val) pre.next = null
   return head

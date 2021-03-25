@@ -37,7 +37,7 @@ var reverseListError = function (head, res = {}) {
   return res
 }
 
-var reverseList = function (head) {
+var reverseList2 = function (head) {
   if (!head) return null
   let res = [],
     cur = head
@@ -54,7 +54,25 @@ var reverseList = function (head) {
   }, link)
   return link.next
 }
+var reverseList3 = function (head, res = null) {
+  if (!head) return null;
+  const next = head.next;
+  head.next = res;
+  return reverseList(next, head);
+};
 
+var reverseList4 = function (head) {
+  if (!head) return null;
+  let res = null;
+  while (head) {
+    const next = head.next;
+    head.next = res;
+    //
+    res = head;
+    head = next;
+  }
+  return res;
+};
 /**
  * Definition for singly-linked list.
  * function ListNode(val, next) {
@@ -83,7 +101,18 @@ var deleteDuplicates = function (head) {
   }
   return head
 }
-
+var deleteDuplicates1 = function (head) {
+  if (!head) return null;
+  let pre = head;
+  while (head.next) {
+    if (head.next.val === head.val) {
+      head.next = head.next.next; //null;
+    } else {
+      head = head.next;
+    }
+  }
+  return pre;
+};
 /**
  * Definition for singly-linked list.
  * function ListNode(val) {
@@ -201,3 +230,19 @@ var removeElementsError = function (head, val) {
   if (node && node.val === val) node = node.next
   return node
 }
+var removeElements = function (head, val) {
+  while (head && head.val === val) {
+    head = head.next;
+  }
+  if (!head) return head;
+  const node = head;
+  let next = node;
+  while (next.next) {
+    if (next.next.val === val) {
+      next.next = next.next.next;
+    } else {
+      next = next.next;
+    }
+  }
+  return node;
+};
