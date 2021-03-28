@@ -15,7 +15,23 @@ var secondHighest = function (s) {
   if (s.length < 2) return -1
   return s[s.length - 2]
 }
-
+var secondHighest1 = function (s) {
+  let a = -1
+  let b = -2
+  for (const n of s) {
+    const v = Number(n)
+    if (Number.isNaN(v)) {
+      continue
+    } else {
+      if (v > a) {
+        ;[a, b] = [v, a]
+      } else if (v !== a && v > b) {
+        b = v
+      }
+    }
+  }
+  return b >= 0 ? b : -1
+}
 /**
  * @param {number} timeToLive
  */

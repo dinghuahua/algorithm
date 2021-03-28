@@ -11,24 +11,24 @@
  * @return {ListNode}
  */
 var reverseList = function (head, res = null) {
-  if (!head) return null;
-  const next = head.next;
-  head.next = res;
-  return reverseList(next, head);
-};
+  if (!head) return null
+  const next = head.next
+  head.next = res
+  return reverseList(next, head)
+}
 
 var reverseList = function (head) {
-  if (!head) return null;
-  let res = null;
+  if (!head) return null
+  let res = null
   while (head) {
-    const next = head.next;
-    head.next = res;
+    const next = head.next
+    head.next = res
     //
-    res = head;
-    head = next;
+    res = head
+    head = next
   }
-  return res;
-};
+  return res
+}
 
 /**
  * Definition for singly-linked list.
@@ -36,7 +36,7 @@ var reverseList = function (head) {
  *     this.val = (val===undefined ? 0 : val)
  *     this.next = (next===undefined ? null : next)
  * }
- */ let prel;
+ */ let prel
 //head -> 5
 /**[1,1,1,2,3,3,4,5,5]
  * 83. 删除排序链表中的重复元素  如果不得使用临时缓冲区，该怎么解决？
@@ -44,17 +44,17 @@ var reverseList = function (head) {
  * @return {ListNode}
  */
 var deleteDuplicates = function (head) {
-  if (!head) return null;
-  let pre = head;
+  if (!head) return null
+  let pre = head
   while (head.next) {
     if (head.next.val === head.val) {
-      head.next = head.next.next; //null;
+      head.next = head.next.next //null;
     } else {
-      head = head.next;
+      head = head.next
     }
   }
-  return pre;
-};
+  return pre
+}
 
 /**
  * Definition for singly-linked list.
@@ -70,16 +70,16 @@ var deleteDuplicates = function (head) {
  */
 var reversePrint = function (head, res = []) {
   if (!head) {
-    return res;
+    return res
   }
   if (!head.next) {
-    res.push(head.val);
-    return res;
+    res.push(head.val)
+    return res
   }
-  reversePrint(head.next, res);
-  res.push(head.val);
-  return res;
-};
+  reversePrint(head.next, res)
+  res.push(head.val)
+  return res
+}
 
 /**
  * Definition for singly-linked list.
@@ -95,15 +95,15 @@ var reversePrint = function (head, res = []) {
  * @return {boolean}
  */
 var hasCycle = function (head) {
-  if (!head || !head.next) return false;
-  var map = new Map();
+  if (!head || !head.next) return false
+  var map = new Map()
   while (head) {
-    if (!head.next) return false;
-    if (map.has(head)) return true;
-    map.set(head, head.next);
-    head = head.next;
+    if (!head.next) return false
+    if (map.has(head)) return true
+    map.set(head, head.next)
+    head = head.next
   }
-};
+}
 
 /**
  * Definition for singly-linked list.
@@ -118,25 +118,25 @@ var hasCycle = function (head) {
  * @return {number}
  */
 var getDecimalValue = function (head) {
-  if (!head) return 0;
-  if (!head.next) return head.val;
-  let num = 0;
+  if (!head) return 0
+  if (!head.next) return head.val
+  let num = 0
   while (head) {
-    num = 2 * num + head.val;
-    head = head.next;
+    num = 2 * num + head.val
+    head = head.next
   }
-  return num;
-};
+  return num
+}
 var getDecimalValue = function (head) {
-  if (!head) return 0;
-  if (!head.next) return head.val;
-  let res = [];
+  if (!head) return 0
+  if (!head.next) return head.val
+  let res = []
   while (head) {
-    res.unshift(head.val);
-    head = head.next;
+    res.unshift(head.val)
+    head = head.next
   }
-  return res.reduce((sum, item, index) => sum + Math.pow(2, index) * item, 0);
-};
+  return res.reduce((sum, item, index) => sum + Math.pow(2, index) * item, 0)
+}
 
 /**
  * Definition for singly-linked list.
@@ -173,19 +173,68 @@ var getDecimalValue = function (head) {
 //   if (node && node.val === val) node = node.next;
 //   return node;
 // };
-var removeElementsError = function (head, val) {
+var removeElements = function (head, val) {
   while (head && head.val === val) {
-    head = head.next;
+    head = head.next
   }
-  if (!head) return head;
-  const node = head;
-  let next = node;
+  if (!head) return head
+  const node = head
+  let next = node
   while (next.next) {
     if (next.next.val === val) {
-      next.next = next.next.next;
+      next.next = next.next.next
     } else {
-      next = next.next;
+      next = next.next
     }
   }
-  return node;
-};
+  return node
+}
+
+var isPalindrome = function (head) {
+  if (!head || !head.next) return true
+
+  let start = head
+  let next = head.next
+  while (next) {
+    next.pre = head
+    head = head.next
+    next = next.next
+  }
+  while (start.val === head.val) {
+    start = start.next
+    head = head.pre
+    if (start == head) return true
+  }
+  return false
+}
+var maxSubArray = function (nums) {
+  const l = nums.length
+  let dp = nums[0]
+  let max = -Infinity
+  for (let i = 1; i < l; i++) {
+    if (dp < 0) {
+      dp = nums[i]
+    } else {
+      dp += nums[i]
+    }
+    max = Math.max(max, dp)
+  }
+  return max
+}
+var secondHighest = function (s) {
+  let a = -1
+  let b = -2
+  for (const n of s) {
+    const v = Number(n)
+    if (Number.isNaN(v)) {
+      continue
+    } else {
+      if (v > a) {
+        ;[a, b] = [v, a]
+      } else if (v !== a && v > b) {
+        b = v
+      }
+    }
+  }
+  return b >= 0 ? b : -1
+}

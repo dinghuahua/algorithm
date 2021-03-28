@@ -125,11 +125,20 @@ var isBalanced = function (root) {
 var hasPathSum = function (root, targetSum) {
   if (!root) return false
   const dfs = (root, preNum) => {
-    if (!root) return preNum === targetSum
+    // TODO: 为什么[1,2] 1 测试用例通不过 需要是叶子节点
+    // if (!root) return preNum === targetSum
     if (!root.left && !root.right) return preNum + root.val === targetSum
     return (
       dfs(root.left, preNum + root.val) || dfs(root.right, preNum + root.val)
     )
   }
   return dfs(root, 0)
+}
+var hasPathSum2 = function (root, targetSum, pre = 0) {
+  if (!root) return false
+  if (!root.left && !root.right) return pre + root.val === targetSum
+  return (
+    hasPathSum(root.left, targetSum, pre + root.val) ||
+    hasPathSum(root.right, targetSum, pre + root.val)
+  )
 }
