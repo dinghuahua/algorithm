@@ -73,7 +73,6 @@ NumArray.prototype.sumRange = function (left, right) {
  * var obj = new NumArray(nums)
  * var param_1 = obj.sumRange(left,right)
  */
-
 /**
  * 面试题 08.01. 三步问题 如何去掉前面的三个if
  * @param {number} n

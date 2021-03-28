@@ -125,8 +125,8 @@ var isBalanced = function (root) {
 var hasPathSum = function (root, targetSum) {
   if (!root) return false
   const dfs = (root, preNum) => {
-    // TODO: 为什么[1,2] 1 测试用例通不过 需要是叶子节点
-    // if (!root) return preNum === targetSum
+    // TODO: 为什么[1,2] 1 测试用例通不过 需要达到叶子节点才可以，根节点直接相等是不可以的
+    if (!root) return false
     if (!root.left && !root.right) return preNum + root.val === targetSum
     return (
       dfs(root.left, preNum + root.val) || dfs(root.right, preNum + root.val)
