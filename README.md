@@ -52,6 +52,8 @@ https://www.zhihu.com/question/23995189?utm_source=wechat_session&utm_medium=soc
 反转错误
 
 0328
+叶子节点让和普通节点保持相通的处理，空节点处理好
+由后面的状态来推初始化的值，可以少很多初始化的赋值
 环形链表
 竞赛
 动态规划？？1025. 除数博弈

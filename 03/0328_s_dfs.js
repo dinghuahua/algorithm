@@ -130,18 +130,7 @@ var maxDepth = function (root) {
     }, 0)
   )
 }
-/**
- * @param {TreeNode} root
- * @return {number}
- */
-var minDepth = function (root, isRoot = !0) {
-  if (!root) return isRoot ? 0 : Infinity
-  if (!root.left && !root.right) return 1
-
-  return Math.min(minDepth(root.left, !1) + 1, minDepth(root.right, !1) + 1)
-}
-/**
- * 111. 二叉树的最小深度
+/** 111. 二叉树的最小深度
  * @param {TreeNode} root
  * @return {number}
  */
@@ -186,4 +175,39 @@ var maxDepth = function (root) {
   if (!root.left && !root.right) return 1
 
   return Math.max(maxDepth(root.left) + 1, maxDepth(root.right) + 1)
+}
+
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDiffInBSTError = function (
+  root,
+  min1 = Infinity,
+  min2 = Infinity,
+  minDiff = Infinity
+) {
+  if (!root) return min2 - min1
+  ;[min1, min2] =
+    root.val > min2
+      ? [min1, min2]
+      : min2 > root.val && root.val > min1
+      ? [min1, root.val]
+      : [root.val, min1]
+
+  if (!root.left && !root.right) {
+    return Math.min(minDiff, min2 - min1)
+  }
+  return Math.min(
+    minDiffInBST(root.left, min1, min2, minDiff),
+    minDiffInBST(root.right, min1, min2, minDiff)
+  )
 }
