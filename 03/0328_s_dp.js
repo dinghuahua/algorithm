@@ -170,7 +170,7 @@ var isSubsequence = function (s, t) {
   return sIndex >= s.length
 }
 // 进阶
-var isSubsequence2 = function (s, t) {
+var isSubsequence2 = function (s = "abc", t = "ahbgdc") {
   if (!s) return true
   if (!t) return false
   const l = t.length;
@@ -194,3 +194,30 @@ var isSubsequence2 = function (s, t) {
   }
   return true;
 };
+
+var isSubsequence3 = function (s = "abc", t = "ahbgdc") {
+  if (!s) return true
+  if (!t) return false
+
+  const l = t.length
+  const sl = s.length
+  const dp = new Array(l).fill('').map(item => new Array(26).fill(-1))
+
+  dp[l - 1][t[l - 1].charCodeAt() - 97] = l - 1
+  for (let i = l - 2; i >= 0; i--) {
+    for (let j = 0; j < 26; j++) {
+      dp[i][j] = dp[i + 1][j]
+    }
+    dp[i][t[i].charCodeAt() - 97] = i
+  }
+  let curentIndex = 0
+  for (let i = 0; i < sl; i++) {
+    if (curentIndex >= l) return false
+    curentIndex = dp[curentIndex][s[i].charCodeAt() - 97]
+    if (curentIndex < 0) return false
+    ++curentIndex
+  }
+  return true
+};
+console.log(isSubsequence2())
+console.log(isSubsequence3())
