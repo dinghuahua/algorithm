@@ -1,4 +1,5 @@
 /**
+ * 🌟🌟🌟🌟🌟
  * 1025. 除数博弈
  * @param {number} n
  * @return {boolean}
@@ -37,6 +38,7 @@ var divisorGame = function (n) {
 };
 
 /**
+ * 🌟🌟
  * 剑指 Offer 42. 连续子数组的最大和
  * @param {number[]} nums
  * @return {number}
@@ -63,6 +65,7 @@ var maxSubArray2 = function (nums) {
   return max
 }
 /**
+ * 🌟🌟🌟
  * 303. 区域和检索 - 数组不可变  不懂这道题再考什么
  * 前缀和
  * @param {number[]} nums
@@ -155,6 +158,7 @@ var waysToStep3 = function (n) {
   return dp1;
 };
 /**
+ * 🌟🌟🌟
  * 392. 判断子序列
  * 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
  * @param {string} s
