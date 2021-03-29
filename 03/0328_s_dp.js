@@ -22,6 +22,7 @@ var divisorGame = function (n) {
   // a2  4  b1  a输
 }
 var divisorGame = function (n) {
+  // n数字时 先选择的人是否输赢
   const dp = new Array(n + 1).fill(false);
   dp[1] = false;
   for (let i = 2; i <= n; i++) {
@@ -34,6 +35,7 @@ var divisorGame = function (n) {
   }
   return dp[n];
 };
+
 /**
  * 剑指 Offer 42. 连续子数组的最大和
  * @param {number[]} nums
@@ -62,6 +64,7 @@ var maxSubArray2 = function (nums) {
 }
 /**
  * 303. 区域和检索 - 数组不可变  不懂这道题再考什么
+ * 前缀和
  * @param {number[]} nums
  */
 var NumArray = function (nums) {
@@ -82,10 +85,10 @@ NumArray.prototype.sumRange = function (left, right) {
 }
 // dp
 var NumArray = function (nums) {
-  // this.nums = nums || [];
+  // 到当前下标(包含)的前缀和
   this.cache = new Array(nums.length).fill(0);
   this.cache[0] = nums[0];
-  for (let i = 1; i <= nums.length; i++) {
+  for (let i = 1; i < nums.length; i++) {
     this.cache[i] = this.cache[i - 1] + nums[i];
   }
 };
@@ -139,6 +142,7 @@ var waysToStep2 = function (n) {
   }
   return dp1
 }
+// 初始化d3第0个台阶1 d2第1个台阶1 d1第2个台阶2
 var waysToStep3 = function (n) {
   if (n === 1) return 1;
   let dp3 = 1,
@@ -167,15 +171,16 @@ var isSubsequence = function (s, t) {
 }
 // 进阶
 var isSubsequence2 = function (s, t) {
+  if (!s) return true
+  if (!t) return false
   const l = t.length;
   const dp = new Array(l).fill("").map(() => new Array(26).fill(-1));
-  const last = t[l - 1];
-  dp[l - 1][t[last].chartCodeAt() - 97] = l - 1;
+  dp[l - 1][t[l - 1].charCodeAt() - 97] = l - 1;
   for (let i = l - 2; i >= 0; i--) {
     for (let j = 0; j < 26; j++) {
       dp[i][j] = dp[i + 1][j];
     }
-    dp[i][t[i].chartCodeAt() - 97] = i;
+    dp[i][t[i].charCodeAt() - 97] = i;
   }
   let cur = 0;
   // bac
