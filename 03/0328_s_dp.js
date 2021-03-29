@@ -5,21 +5,35 @@
  */
 // 不会 分析不出规律
 var divisorGame = function (n) {
+  // 1
+  // a输
   // 2
   // a1  1  b输
   // 3
   // a1  2  b1   1  a输
   // 4
-  // a2  2  b1   1  a输
   // a1  3  b1   1  b输
+  // a2  2  b1   1  a输
   // 5
   // a1  4  b1 ...  a输
   // 6
-  // a2  4  b1  a输
   // a3  3  b1  b输
   // a1  5  b1  b输
+  // a2  4  b1  a输
 }
-
+var divisorGame = function (n) {
+  const dp = new Array(n + 1).fill(false);
+  dp[1] = false;
+  for (let i = 2; i <= n; i++) {
+    for (let j = 1; j < i; j++) {
+      if (!(i % j) && !dp[i - j]) {
+        dp[i] = true;
+        break
+      }
+    }
+  }
+  return dp[n];
+};
 /**
  * 剑指 Offer 42. 连续子数组的最大和
  * @param {number[]} nums
@@ -53,7 +67,6 @@ var maxSubArray2 = function (nums) {
 var NumArray = function (nums) {
   this.nums = nums || []
 }
-
 /**
  * @param {number} left
  * @param {number} right
@@ -67,7 +80,24 @@ NumArray.prototype.sumRange = function (left, right) {
   }
   return sum
 }
+// dp
+var NumArray = function (nums) {
+  // this.nums = nums || [];
+  this.cache = new Array(nums.length).fill(0);
+  this.cache[0] = nums[0];
+  for (let i = 1; i <= nums.length; i++) {
+    this.cache[i] = this.cache[i - 1] + nums[i];
+  }
+};
 
+/**
+ * @param {number} left
+ * @param {number} right
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function (left, right) {
+  return this.cache[right] - (this.cache[left - 1] || 0);
+};
 /**
  * Your NumArray object will be instantiated and called as such:
  * var obj = new NumArray(nums)
@@ -109,7 +139,17 @@ var waysToStep2 = function (n) {
   }
   return dp1
 }
-
+var waysToStep3 = function (n) {
+  if (n === 1) return 1;
+  let dp3 = 1,
+    dp2 = 1,
+    dp1 = 2,
+    m = 1000000007;
+  for (let i = 3; i <= n; i++) {
+    [dp1, dp2, dp3] = [(dp1 + dp2 + dp3) % m, dp1, dp2];
+  }
+  return dp1;
+};
 /**
  * 392. 判断子序列
  * 如果有大量输入的 S，称作 S1, S2, ... , Sk 其中 k >= 10亿，你需要依次检查它们是否为 T 的子序列。在这种情况下，你会怎样改变代码？
@@ -125,4 +165,27 @@ var isSubsequence = function (s, t) {
   }
   return sIndex >= s.length
 }
-// 进阶？？
+// 进阶
+var isSubsequence2 = function (s, t) {
+  const l = t.length;
+  const dp = new Array(l).fill("").map(() => new Array(26).fill(-1));
+  const last = t[l - 1];
+  dp[l - 1][t[last].chartCodeAt() - 97] = l - 1;
+  for (let i = l - 2; i >= 0; i--) {
+    for (let j = 0; j < 26; j++) {
+      dp[i][j] = dp[i + 1][j];
+    }
+    dp[i][t[i].chartCodeAt() - 97] = i;
+  }
+  let cur = 0;
+  // bac
+  // aaab
+  const ls = s.length;
+  for (let i = 0; i < ls; i++) {
+    if (cur >= l) return false;
+    const curentIndex = dp[cur][s[i].charCodeAt() - 97];
+    if (curentIndex < 0) return false;
+    cur = curentIndex + 1;
+  }
+  return true;
+};
