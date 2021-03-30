@@ -57,5 +57,15 @@ https://www.zhihu.com/question/23995189?utm_source=wechat_session&utm_medium=soc
 竞赛
 动态规划？？1025. 除数博弈
 
-0329
+TODO：0329 
 303. 区域和检索 不能有=
+
+问了http2和http3
+然后xss的防御性我没记起来，反射型和存储型说出来了
+cdn服务器的架构设计
+tcp和udp的区别
+
+TODO：0330
+背包问题
+207 题
+优化锋锋写的背包
