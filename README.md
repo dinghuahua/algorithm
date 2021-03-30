@@ -42,11 +42,13 @@ TODO：0326
 剑指 Offer 18. 删除链表的节点 如何考虑边界情况 62. 不同路径
 标准
 状态 压缩 高维 压缩为低维
+滚动数组 
 滚轮：一行的数据轮子向下一行递推到最后一行滚动停止
 排列组合公式
 
 0327
 https://www.zhihu.com/question/23995189?utm_source=wechat_session&utm_medium=social&s_r=0
+当前状态只和上一个有关，与上一个的上一个无关，与历史无关
 
 反转错误
 
