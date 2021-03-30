@@ -7,42 +7,64 @@
  */
 
 const countzeroesones = (s) => {
-  var c = [0, 0];
+  var c = [0, 0]
   for (let i = 0; i < s.length; i++) {
-    c[+s[i]]++;
+    c[+s[i]]++
   }
-  return c;
+  return c
 }
+// 三维数组 dp
+var findMaxForm = function (
+  strs = ['10', '0001', '111001', '1', '0'],
+  m = 5,
+  n = 3
+) {
+  const l = strs.length
+  // 遍历到第i个字符串时可用空间为j个0、k个1的最多存放字符串数量
+  let dp = new Array(l + 1)
+    .fill('')
+    .map((_) => new Array(m + 1).fill(0).map((_) => new Array(n + 1).fill(0)))
 
-var findMaxFormError = function (strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3) {
-  var dp = new Array(m + 1).fill(0).map(_ => new Array(n + 1).fill(0))
-  for (let s of strs) {
-    const count = countzeroesones(s);
-    for (let zeroes = 1; zeroes <= m; zeroes++)
-      if (zeroes < count[0]) {
-        dp[zeroes] = dp[zeroes - count[0]]
-      } else {
-        for (let ones = 1; ones <= n; ones++) {
-          if (ones < count[1]) {
-            dp[zeroes][ones] = dp[zeroes - count[0]][ones]
-          } else {
-            dp[zeroes][ones] = Math.max(1 + dp[zeroes - count[0]][ones - count[1]], dp[zeroes][ones]);
-          }
+  for (let i = 1; i <= l; i++) {
+    const count = countzeroesones(strs[i - 1]),
+      v0 = count[0],
+      v1 = count[1]
+    for (let j = 0; j <= m; j++) {
+      for (let k = 0; k <= n; k++) {
+        if (j < v0 || k < v1) {
+          //  当前字符串放不进去，直接使用上一行数据
+          dp[i][j][k] = dp[i - 1][j][k]
+        } else {
+          //  当前字符串可以放进去，放与不放进行取最大值
+          dp[i][j][k] = Math.max(dp[i - 1][j][k], 1 + dp[i - 1][j - v0][k - v1])
         }
       }
-  }
-  return dp[m][n];
-};
-
-var findMaxForm1 = function (strs = ["10", "0001", "111001", "1", "0"], m = 5, n = 3) {
-  var dp = new Array(m + 1).fill(0).map(_ => new Array(n + 1).fill(0))
-  for (let s of strs) {
-    const count = countzeroesones(s);
-    for (let zeroes = m; zeroes >= count[0]; zeroes--)
-      for (let ones = n; ones >= count[1]; ones--)
-        dp[zeroes][ones] = Math.max(1 + dp[zeroes - count[0]][ones - count[1]], dp[zeroes][ones]);
+    }
   }
   console.log(dp)
-  return dp[m][n];
-};
+  return dp[l][m][n]
+}
+//压缩为二维数组 dp
+var findMaxForm1 = function (
+  strs = ['10', '0001', '111001', '1', '0'],
+  m = 5,
+  n = 3
+) {
+  const l = strs.length
+  // 遍历到第i个字符串时可用空间为j个0、k个1的最多存放字符串数量
+  let dp = new Array(m + 1).fill('').map((_) => new Array(n + 1).fill(0))
+
+  for (let i = 1; i <= l; i++) {
+    const count = countzeroesones(strs[i - 1]),
+      v0 = count[0],
+      v1 = count[1]
+    for (let j = m; j >= v0; j--) {
+      for (let k = n; k >= v1; k--) {
+        //  当前字符串可以放进去，放与不放进行取最大值
+        dp[j][k] = Math.max(dp[j][k], 1 + dp[j - v0][k - v1])
+      }
+    }
+  }
+  return dp[m][n]
+}
 console.log(findMaxForm(), findMaxForm1())
