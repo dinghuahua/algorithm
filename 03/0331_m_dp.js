@@ -135,7 +135,19 @@ var countVowelStrings2 = function (n) {
   }
   return dp[n][sl];
 };
-
+var countVowelStrings3 = function (n) {
+  if (n == 0) return 0;
+  if (n == 1) return 5;
+  // a e i o u
+  // list[i]表示以对应的元音字母结尾的字符串的数量
+  const list = [1, 1, 1, 1, 1];
+  for (let i = 2; i <= n; i++) {
+    for (let j = 1; j < 5; j++) {
+      list[j] = list[j] + list[j - 1];
+    }
+  }
+  return list.reduce((a, b) => a + b, 0);
+};
 // "abcde"
 // "ace"
 
