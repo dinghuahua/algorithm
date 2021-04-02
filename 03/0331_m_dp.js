@@ -13,43 +13,214 @@ var maxTurbulenceSizeError = function (arr) {
     // console.log((arr?.[i-2]??Infinity),arr[i-1] , (arr?.[i]??Infinity))
     if ((i - 1) % 2 === 0) {
       // 偶数位置
-      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1] && arr[i - 1] < (arr?.[i] ?? Infinity)) {
+      if (
+        (arr?.[i - 2] ?? Infinity) > arr[i - 1] &&
+        arr[i - 1] < (arr?.[i] ?? Infinity)
+      ) {
         dp1[i] = dp1[i - 1] + 1
       } else {
         dp1[i] = Math.max(1, dp1[i - 1])
       }
 
-      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1] && arr[i - 1] > (arr?.[i] ?? -Infinity)) {
+      if (
+        (arr?.[i - 2] ?? -Infinity) < arr[i - 1] &&
+        arr[i - 1] > (arr?.[i] ?? -Infinity)
+      ) {
         dp2[i] = dp2[i - 1] + 1
       } else {
         dp2[i] = Math.max(1, dp2[i - 1])
-        if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1] && arr[i - 1] <= (arr?.[i] ?? -Infinity)) ++dp2[i]
+        if (
+          (arr?.[i - 2] ?? -Infinity) < arr[i - 1] &&
+          arr[i - 1] <= (arr?.[i] ?? -Infinity)
+        )
+          ++dp2[i]
       }
-
     } else {
       // 奇数位置
-      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1] && arr[i - 1] > (arr?.[i] ?? -Infinity)) {
+      if (
+        (arr?.[i - 2] ?? -Infinity) < arr[i - 1] &&
+        arr[i - 1] > (arr?.[i] ?? -Infinity)
+      ) {
         dp1[i] = dp1[i - 1] + 1
       } else {
         dp1[i] = Math.max(1, dp1[i - 1])
-        if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1] && arr[i - 1] <= (arr?.[i] ?? -Infinity)) ++dp1[i]
+        if (
+          (arr?.[i - 2] ?? -Infinity) < arr[i - 1] &&
+          arr[i - 1] <= (arr?.[i] ?? -Infinity)
+        )
+          ++dp1[i]
       }
 
-
-      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1] && arr[i - 1] < (arr?.[i] ?? Infinity)) {
+      if (
+        (arr?.[i - 2] ?? Infinity) > arr[i - 1] &&
+        arr[i - 1] < (arr?.[i] ?? Infinity)
+      ) {
         dp2[i] = dp2[i - 1] + 1
       } else {
         dp2[i] = Math.max(1, dp2[i - 1])
-        if ((arr?.[i - 2] ?? Infinity) > arr[i - 1] && arr[i - 1] >= (arr?.[i] ?? Infinity)) ++dp2[i]
+        if (
+          (arr?.[i - 2] ?? Infinity) > arr[i - 1] &&
+          arr[i - 1] >= (arr?.[i] ?? Infinity)
+        )
+          ++dp2[i]
       }
-
     }
   }
   console.log(dp1, dp2)
   return Math.max(dp1[l], dp2[l])
-};
+}
+var maxTurbulenceSizeError2 = function (arr) {
+  const l = arr.length
+  let dp1 = new Array(l + 1).fill(0),
+    dp2 = new Array(l + 1).fill(0)
+
+  for (let i = 1; i <= l; i++) {
+    // console.log((arr?.[i-2]??Infinity),arr[i-1] , (arr?.[i]??Infinity))
+    if ((i - 1) % 2 === 0) {
+      // 偶数位置
+      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1]) {
+        dp1[i] = dp1[i - 1] + 1
+      } else {
+        dp1[i] = Math.max(1, dp1[i - 1])
+      }
+
+      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1]) {
+        dp2[i] = dp2[i - 1] + 1
+      } else {
+        dp2[i] = Math.max(1, dp2[i - 1])
+      }
+    } else {
+      // 奇数位置
+      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1]) {
+        dp1[i] = dp1[i - 1] + 1
+      } else {
+        dp1[i] = Math.max(1, dp1[i - 1])
+      }
+
+      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1]) {
+        dp2[i] = dp2[i - 1] + 1
+      } else {
+        dp2[i] = Math.max(1, dp2[i - 1])
+      }
+    }
+  }
+  console.log(dp1, dp2)
+  return Math.max(dp1[l], dp2[l])
+}
+var maxTurbulenceSize = function (arr) {
+  const l = arr.length
+  let dp1 = new Array(l + 1).fill(0),
+    dp2 = new Array(l + 1).fill(0)
+
+  for (let i = 1; i <= l; i++) {
+    // console.log((arr?.[i-2]??Infinity),arr[i-1] , (arr?.[i]??Infinity))
+    if ((i - 1) % 2 === 0) {
+      // 偶数位置
+      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1]) {
+        dp1[i] = dp1[i - 1] + 1
+      } else {
+        dp1[i] = 1
+      }
+
+      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1]) {
+        dp2[i] = dp2[i - 1] + 1
+      } else {
+        dp2[i] = 1
+      }
+    } else {
+      // 奇数位置
+      if ((arr?.[i - 2] ?? -Infinity) < arr[i - 1]) {
+        dp1[i] = dp1[i - 1] + 1
+      } else {
+        dp1[i] = 1
+      }
+
+      if ((arr?.[i - 2] ?? Infinity) > arr[i - 1]) {
+        dp2[i] = dp2[i - 1] + 1
+      } else {
+        dp2[i] = 1
+      }
+    }
+  }
+  console.log(dp1, dp2)
+  return Math.max(...dp1, ...dp2)
+}
 // [0, 1, 1, 0, 1, 0, 1, 1, 0, 0]
 // [4, 8, 12, 16]
+// 题解
+var maxTurbulenceSize = function (arr) {
+  let len = arr.length
+  if (len < 2) {
+    return len
+  }
+
+  // 以 arr[i] 结尾，并且 arr[i - 1] < arr[i] 的湍流子数组的长度
+  let increased = new Array(len)
+  // 以 arr[i] 结尾，并且 arr[i - 1] > arr[i] 的湍流子数组的长度
+  let decreased = new Array(len)
+
+  increased[0] = 1
+  decreased[0] = 1
+  let res = 1
+  for (let i = 1; i < len; i++) {
+    if (arr[i - 1] < arr[i]) {
+      increased[i] = decreased[i - 1] + 1
+      decreased[i] = 1
+    } else if (arr[i - 1] > arr[i]) {
+      decreased[i] = increased[i - 1] + 1
+      increased[i] = 1
+    } else {
+      increased[i] = 1
+      decreased[i] = 1
+    }
+
+    res = Math.max(res, increased[i], decreased[i])
+  }
+  return res
+}
+var maxTurbulenceSize2 = function (arr) {
+  const l = arr.length
+  const dp1 = new Array(l).fill(1)
+  const dp2 = new Array(l).fill(1)
+  for (let i = 1; i < l; i++) {
+    if (i % 2 && arr[i] > arr[i - 1]) {
+      dp1[i] = dp1[i - 1] + 1
+    } else if (!(i % 2) && arr[i] < arr[i - 1]) {
+      dp1[i] = dp1[i - 1] + 1
+    } else if (i % 2 && arr[i] < arr[i - 1]) {
+      dp2[i] = dp2[i - 1] + 1
+    } else if (!(i % 2) && arr[i] > arr[i - 1]) {
+      dp2[i] = dp2[i - 1] + 1
+    }
+  }
+  return Math.max(...dp1, ...dp2)
+}
+var maxTurbulenceSize3 = function (arr) {
+  const l = arr.length
+  let max = 1
+  let dp1 = 1
+  let dp2 = 1
+  for (let i = 1; i < l; i++) {
+    if (i % 2 && arr[i] > arr[i - 1]) {
+      dp1++
+      dp2 = 1
+    } else if (!(i % 2) && arr[i] < arr[i - 1]) {
+      dp1++
+      dp2 = 1
+    } else if (i % 2 && arr[i] < arr[i - 1]) {
+      dp2++
+      dp1 = 1
+    } else if (!(i % 2) && arr[i] > arr[i - 1]) {
+      dp2++
+      dp1 = 1
+    } else {
+      dp1 = 1
+      dp2 = 1
+    }
+    max = Math.max(max, dp1, dp2)
+  }
+  return max
+}
 
 /**
  * 300. 最长递增子序列
@@ -74,8 +245,7 @@ var lengthOfLIS = function (nums) {
   }
   // console.log(dp)
   return max
-
-};
+}
 
 /**
  * 1641. 统计字典序元音字符串的数目
@@ -83,16 +253,19 @@ var lengthOfLIS = function (nums) {
  * @return {number}
  */
 var countVowelStrings = function (n) {
-  const str = "aeiou"
+  const str = 'aeiou'
 
-  let stack = [{
-    pre: '',
-    next: str
-  }]
-  let num = 0;
+  let stack = [
+    {
+      pre: '',
+      next: str,
+    },
+  ]
+  let num = 0
   while (stack.length) {
     const cur = stack.shift()
-    let pre = cur.pre, next = cur.next
+    let pre = cur.pre,
+      next = cur.next
 
     if (pre.length === n) {
       ++num
@@ -103,16 +276,17 @@ var countVowelStrings = function (n) {
     for (let i = 0; i < l; i++) {
       stack.unshift({
         pre: `${pre}${next[i]}`,
-        next: `${next.slice(i)}`
+        next: `${next.slice(i)}`,
       })
     }
   }
   return num
-};
+}
 var countVowelStringsError = function (n) {
-  const str = "aeiou", sl = str.length
+  const str = 'aeiou',
+    sl = str.length
   // 在第i个字母时长度为j的字符串个数
-  let dp = new Array(sl + 1).fill(0).map(_ => new Array(n + 1).fill(0))
+  let dp = new Array(sl + 1).fill(0).map((_) => new Array(n + 1).fill(0))
 
   for (let i = 1; i <= sl; i++) {
     for (let j = 1; j <= n; j++) {
@@ -123,14 +297,17 @@ var countVowelStringsError = function (n) {
   }
   console.log(dp)
   return dp[sl][n]
-};
+}
 var countVowelStrings2 = function (n) {
-  const str = "aeiou", sl = str.length
-  let dp = new Array(n + 1).fill(0).map(_ => new Array(sl + 1).fill(0).map((a, b) => b))
+  const str = 'aeiou',
+    sl = str.length
+  let dp = new Array(n + 1)
+    .fill(0)
+    .map((_) => new Array(sl + 1).fill(0).map((a, b) => b))
 
   for (let i = 2; i <= n; i++) {
     for (let j = 2; j <= sl; j++) {
-      dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+      dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
     }
   }
   return dp[n][sl];
@@ -157,6 +334,9 @@ var countVowelStrings3 = function (n) {
 // "oxcpqrsvwf"
 // "shmtulqrypy"
 
+// 'ezupkr'
+// 'ubmrapg'
+
 /**
  * 1143. 最长公共子序列
  * @param {string} text1
@@ -164,8 +344,9 @@ var countVowelStrings3 = function (n) {
  * @return {number}
  */
 var longestCommonSubsequence = function (text1, text2) {
-  const t1 = text1.length, t2 = text2.length
-  const dp = new Array(t1 + 1).fill(0).map(_ => new Array(t2 + 1).fill(0))
+  const t1 = text1.length,
+    t2 = text2.length
+  const dp = new Array(t1 + 1).fill(0).map((_) => new Array(t2 + 1).fill(0))
 
   for (let i = 1; i <= t1; i++) {
     for (let j = 1; j <= t2; j++) {
@@ -181,4 +362,23 @@ var longestCommonSubsequence = function (text1, text2) {
   }
   // console.log(dp)
   return dp[t1][t2]
-};
+}
+var longestCommonSubsequence2 = function (text1, text2) {
+  const t1 = text1.length,
+    t2 = text2.length
+  let dp = new Array(2).fill(0).map((_) => new Array(t2 + 1).fill(0))
+
+  for (let i = 1; i <= t1; i++) {
+    dp[0] = [...dp[1]]
+    dp[1].fill(0)
+    for (let j = 1; j <= t2; j++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[1][j] = dp[0][j - 1] + 1
+      } else {
+        dp[1][j] = Math.max(dp[1][j - 1], dp[0][j])
+      }
+    }
+  }
+  //   console.log(dp)
+  return dp[1][t2]
+}
