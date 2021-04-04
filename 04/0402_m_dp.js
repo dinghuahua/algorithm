@@ -28,19 +28,12 @@ var matrixBlockSum = function (
         mat[i][j]
     }
   }
-  console.log(dp)
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
       const minI = i - K < 0 ? 0 : i - K,
         maxI = i + K >= m ? m - 1 : i + K,
         minJ = j - K < 0 ? 0 : j - K,
-        maxJ = j + K >= n ? n - 1 : j + K
-      console.log(
-        dp[maxI][maxJ] -
-          (dp[maxI]?.[minJ - 1] ?? 0) -
-          (dp?.[minI - 1]?.[maxJ] ?? 0) +
-          (dp?.[minI - 1]?.[minJ - 1] ?? 0)
-      )
+        maxJ = j + K >= n ? n - 1 : j + K 
       answer[i][j] =
         dp[maxI][maxJ] -
         (dp[maxI]?.[minJ - 1] ?? 0) -
@@ -48,7 +41,6 @@ var matrixBlockSum = function (
         (dp?.[minI - 1]?.[minJ - 1] ?? 0)
     }
   }
-  console.log(answer)
   return answer
 }
 var matrixBlockSum2 = function (mat, K) {

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+  var countSquares = function (matrix) {
+    const m = matrix.length,
+      n = matrix[0].length
+    // 相对于 00位置的前缀和
+    let dp1 = new Array(m).fill(0).map(() => new Array(n).fill(0))
+    // 边长为k 的正方形个数
+    let dp2 = new Array(n).fill(0)
+
+    dp1[0][0] = matrix[0][0]
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        dp1[i][j] =
+          (dp1?.[i - 1]?.[j] ?? 0) +
+          (dp1[i]?.[j - 1] ?? 0) -
+          (dp1?.[i - 1]?.[j - 1] ?? 0) +
+          matrix[i][j]
+        if (matrix[i][j]) ++dp2[0]
+      }
+    }
+    const getSum = (i, j) => {
+      if (i < 0 || j < 0) return 0
+      return dp1[Math.min(i, m - 1)][Math.min(n - 1, j)]
+    }
+    for (let i = 0; i < m; i++) {
+      for (let j = 0; j < n; j++) {
+        // 不用 越界判断
+        // for (let k = 1; k < Math.min(m - i, n - j); k++) {
+        for (let k = 1; k < n; k++) {
+          // var a1 = getSum(i + k, j + k)
+          // var a2 = getSum(i - 1, j - 1)
+          // var a3 = getSum(i + k, j - 1)
+          // var a4 = getSum(i - 1, j + k)
+          // var sum = a1 + a2 - a3 - a4
+          // console.log(a1, a2, a3, a4,sum, (k + 1) * (k + 1))
+          if (
+            getSum(i + k, j + k) +
+            getSum(i - 1, j - 1) -
+            getSum(i + k, j - 1) -
+            getSum(i - 1, j + k) ===
+            (k + 1) * (k + 1)
+          ) {
+            ++dp2[k]
+          }
+        }
+      }
+    }
+    console.log(dp2)
+    return dp2.reduce((a, b) => a + b, 0)
+  }
+let matrix =
+    [[1, 0, 1],
+    [1, 1, 0],
+  [1, 1, 0]]
+    // [
+    //   [0, 1, 1, 1],
+    //   [1, 1, 1, 1],
+    //   [0, 1, 1, 1]
+    // ]
+  countSquares(matrix)
+  </script>
+</body>
+</html>
