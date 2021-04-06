@@ -1,9 +1,5 @@
 /**
- * @param {string} s
- * @param {number[]} cost
- * @return {number}
- */
-/**
+ * 1578. 避免重复字母的最小删除成本
  * @param {string} s
  * @param {number[]} cost
  * @return {number}
