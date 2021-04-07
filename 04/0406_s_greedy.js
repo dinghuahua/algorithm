@@ -100,13 +100,13 @@ var largestSumAfterKNegations2 = function (A, K) {
     }
   }
   // 先把负数取反为正数
-  while (left.length && k) {
+  while (left.length && K) {
     right.push(-1 * left.shift());
-    k--;
+    K--;
   }
-  if (!k) return [...right, ...left].reduce((a, b) => a + b, 0);
+  if (!K) return [...right, ...left].reduce((a, b) => a + b, 0);
   // k为偶数 只对其中一个数字反复取反
-  if (!(k % 2)) return right.reduce((a, b) => a + b, 0);
+  if (!(K % 2)) return right.reduce((a, b) => a + b, 0);
   let min = -1;
   // 还剩余奇数次取反操作 找到最小值
   for (const i of right) {
