@@ -184,6 +184,7 @@ console.log(
 var maxDepth = function (s) {
   s = s.replace(/[^()]/g, '')
   let max = 0,
+    // 栈中只会存放 (，因此我们不需要维护一个真正的栈，只需要用一个变量模拟记录栈的大小。
     stack = []
   for (var i = 0; i < s.length; i++) {
     if (s[i] === '(') {
