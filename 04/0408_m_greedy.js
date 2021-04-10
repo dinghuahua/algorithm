@@ -253,7 +253,23 @@ var reconstructQueue3 = function (people) {
   }
   return res
 }
-
+var reconstructQueue4 = function (people) {
+  people.sort((a, b) => {
+    if (a[0] === b[0]) {
+      return a[1] - b[1]
+    }
+    return b[0] - a[0]
+  })
+  const stack = []
+  for (const item of people) {
+    if (!stack.length) {
+      stack.push(item)
+    } else {
+      stack.splice(item[1], 0, item)
+    }
+  }
+  return stack
+}
 /**
  * 1338. 数组大小减半
  * @param {number[]} arr

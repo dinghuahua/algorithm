@@ -18,7 +18,26 @@ var minOperations = function (boxes) {
   }
   return res
 }
-
+var minOperations2 = function (boxes) {
+  const len = boxes.length
+  let res = new Array(len).fill(0)
+  let left = boxes[0] === 1 ? 1 : 0
+  let right = 0
+  for (let i = 1; i < len; i++) {
+    if (boxes[i] === '1') {
+      res[0] += i
+      right++
+    }
+  }
+  for (let i = 1; i < len; i++) {
+    res[i] = res[i - 1] + left - right
+    if (boxes[i] === '1') {
+      right--
+      left++
+    }
+  }
+  return res
+}
 /**
  * 921. 使括号有效的最少添加
  * @param {string} S

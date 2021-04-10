@@ -28,7 +28,23 @@ var findingUsersActiveMinutes = function (logs, k) {
   }
   return answer
 }
-
+var findingUsersActiveMinutes2 = function (logs, k) {
+  const map = new Map()
+  const res = new Array(k).fill(0)
+  for (const [id, time] of logs) {
+    if (!map.has(id)) {
+      map.set(id, new Set())
+    }
+    map.get(id).add(time)
+  }
+  for (const v of map.values()) {
+    const c = v.size
+    if (c <= k) {
+      res[c - 1]++
+    }
+  }
+  return res
+}
 /**
  * 5724. 绝对差值和
  * @param {number[]} nums1
@@ -57,7 +73,45 @@ var minAbsoluteSumDiff = function (nums1, nums2) {
   diff[index] = minDiff
   return diff.reduce((a, b) => a + b, 0) % m
 }
+var minAbsoluteSumDiff2 = function (nums1, nums2) {
+  const mod = Math.pow(10, 9) + 7
+  const l = nums1.length
+  const sort = nums1.slice().sort((a, b) => a - b)
+  const getAbs = (v) => {
+    let left = 0
+    let right = l - 1
+    if (sort[left] === v || sort[right] === v) return 0
+    if (v < sort[left]) return sort[left] - v
+    if (v > sort[right]) return v - sort[right]
+    while (right > left) {
+      if (right - left === 1) break
+      const mid = ~~((left + right) / 2)
+      if (mid === left) break
+      if (sort[mid] === v) return 0
+      if (sort[mid] > v) {
+        right = mid
+      } else {
+        left = mid
+      }
+    }
+    return Math.min(Math.abs(v - sort[left]), Math.abs(sort[right] - v))
+  }
 
+  const absList = nums1.map((v1, index) => {
+    const v = Math.abs(v1 - nums2[index])
+    return v
+  })
+  const sum = absList.reduce((a, b) => a + b, 0)
+  const newSort = nums2.map((v) => {
+    return getAbs(v)
+  })
+  let maxChange = 0
+  for (let i = 0; i < l; i++) {
+    maxChange = Math.max(maxChange, absList[i] - newSort[i])
+  }
+  if (!sum) return sum
+  return (sum - maxChange) % mod
+}
 /**
  * 5725. 序列中不同最大公约数的数目
  * @param {number[]} nums
