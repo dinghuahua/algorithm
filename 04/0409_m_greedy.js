@@ -114,3 +114,60 @@ var restoreMatrix2 = function (rowSum, colSum) {
   }
   return arr
 }
+// 枚举全部的可能性
+var restoreMatrix3 = function (rowSum, colSum, pre, preX, preY, res = []) {
+  let m = rowSum.length,
+    n = colSum.length
+  // arr = new Array(m).fill("").map((_) => new Array(n));
+
+  for (let i = prex + 1; i < m; i++) {
+    for (let j = preY + 1; j < n; j++) {
+      const max = Math.min(rowSum[i], colSum[j])
+      // arr[i][j] = Math.min(rowSum[i], colSum[j]);
+
+      for (let k = 0; k <= max; k++) {
+        pre[i][j] = k
+        rowSum[i] -= k
+        colSum[j] -= k
+        restoreMatrix2(rowSum, colSum, JSON.parse(JSON.stringify(arr)), i, j)
+        rowSum[i] += k
+        colSum[j] += k
+      }
+    }
+  }
+  res.push(pre)
+  return res
+}
+
+var restoreMatrix4Error = function (rowSum, colSum) {
+  let m = rowSum.length,
+    n = colSum.length,
+    // 当次的已经存储的数据
+    arr = new Array(m).fill('').map((_) => new Array(n)),
+    // 所有的结果
+    res = new Array()
+
+  const dfs = (pre, curX, curY) => {
+    debugger
+    for (let i = curX; i < m; i++) {
+      for (let j = curY + 1; j < n; j++) {
+        console.log(x, j)
+        const max = Math.min(rowSum[i], colSum[j])
+        // arr[i][j] = Math.min(rowSum[i], colSum[j]);
+        for (let k = 0; k <= max; k++) {
+          pre[i][j] = k
+          rowSum[i] -= k
+          colSum[j] -= k
+          dfs(JSON.parse(JSON.stringify(pre)), i, j)
+          rowSum[i] += k
+          colSum[j] += k
+        }
+      }
+    }
+    res.push(pre)
+    return res
+  }
+  dfs(arr, 0, -0)
+  console.log(res)
+}
+restoreMatrix2([3, 8], [4, 7])

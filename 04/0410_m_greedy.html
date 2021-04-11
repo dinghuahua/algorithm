@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  
+    var leastInterval = function (tasks, n) {
+      if (!n) return tasks.length
+      const len = tasks.length,
+        map = new Map(),
+        map2 = new Map()
+      let res = []
+      for (let i = 0; i < len; i++) {
+        if(!map.has(tasks[i])) map.set(tasks[i],[tasks[i]])
+        else {
+          let val = map.get(tasks[i]) 
+          val = val.concat(','.repeat(n).split(''), tasks[i])
+          map.set(tasks[i], val)
+        }
+      }
+
+      for (let val of map.values()) {
+        // res  = res.concat(val)
+        console.log(val)
+      }
+
+      console.log(res,map)
+      return res.length
+    }
+
+    leastInterval(['A', 'A', 'A', 'B'], 2)
+    // leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"],2)
+  </script>
+</body>
+</html>
