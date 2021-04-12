@@ -31,6 +31,7 @@ var twoCitySchedCost2 = function (costs) {
 }
 
 /**
+ * 🌟🌟🌟🌟🌟
  * 621. 任务调度器
  * @param {character[]} tasks
  * @param {number} n
@@ -114,7 +115,7 @@ var leastIntervalError = function (tasks, n) {
   console.log(res)
   return res.length
 }
-var leastInterval = function (tasks, n) {
+var leastIntervalError = function (tasks, n) {
   if (!n) return tasks.length
   const len = tasks.length,
     map = new Map(),
@@ -131,9 +132,49 @@ var leastInterval = function (tasks, n) {
   console.log(res)
   return res.length
 }
+var leastInterval = function (tasks, n) {
+  if (!n) return tasks.length;
+  const l = tasks.length;
+  // 最大次数相同的任务的数量 比如a、b任务出现的次数都是最大，并且次数还相同，那么x=2
+  let x = 0;
+  // 找相同的任务出现的最大次数
+  let k = 0;
+  const map = new Map();
+  for (const t of tasks) {
+    map.set(t, (map.get(t) || 0) + 1);
+    if (map.get(t) > k) {
+      k = map.get(t);
+      x = 1;
+    } else if (map.get(t) === k) {
+      x++;
+    }
+  }
+  // a...a...a...a      ==>(n + 1) * (k - 1)
+  // abcdaefgahijkalmn  ==>l
+  // ab..ab..ab..ab     ==>为什么+x
+  // 每一段有(n + 1)时间片(任务+等待时间)， 总共有k段，x最大次数相通的尾端节点
+  return Math.max(l, (n + 1) * (k - 1) + x);
+};
+var leastInterval2 = function (tasks, n) {
+  if (!n) return tasks.length;
+  const map = new Map();
+  let max = 0;
+  let list = [];
+  for (const k of tasks) {
+    map.set(k, (map.get(k) || 0) + 1);
+    if (max < map.get(k)) {
+      max = map.get(k);
+      list.splice(0, Infinity, k);
+    } else if (max === map.get(k)) {
+      list.push(k);
+    }
+  }
+  return Math.max((max - 1) * (n + 1) + list.length, tasks.length);
+};
 leastInterval(['A', 'A', 'A', 'B'], 2)
 
 /**
+ * 🌟🌟🌟🌟
  * 1433. 检查一个字符串是否可以打破另一个字符串
  * @param {string} s1
  * @param {string} s2
@@ -156,3 +197,31 @@ var checkIfCanBreak = function (s1, s2) {
   }
   return flag1 || flag2
 }
+// 前缀和
+var checkIfCanBreak2 = function (s1, s2) {
+  const arr1 = new Array(27).fill(0);
+  const arr2 = new Array(27).fill(0);
+  const l = s1.length;
+  for (let i = 0; i < l; i++) {
+    arr1[s1[i].charCodeAt() - 97]++;
+    arr2[s2[i].charCodeAt() - 97]++;
+  }
+  for (let i = 1; i < 26; i++) {
+    arr1[i] = arr1[i - 1] + arr1[i];
+    arr2[i] = arr2[i - 1] + arr2[i];
+  }
+  // 尾缀合
+  // for (let i = 25; i >= 0; i++) {
+  //   arr1[i] = arr1[i + 1] + arr1[i];
+  //   arr2[i] = arr2[i + 1] + arr2[i];
+  // }
+  let flag1 = true;
+  let flag2 = true;
+  // 如果只求s1是否可以打破s2,那么应该取前缀和少的，即只需要保留flag1
+  // ????
+  for (let i = 0; i < 26; i++) {
+    flag1 = flag1 && arr1[i] <= arr2[i];
+    flag2 = flag2 && arr1[i] >= arr2[i];
+  }
+  return flag1 || flag2;
+};
