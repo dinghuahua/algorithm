@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    var threeSum = function (nums) {
+      let map = new Map(), res = []
+
+      for (let i = 0; i < nums.length; i++) {
+        for ([len, arr] of map) {
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].length < 2) {
+              arr[i].push(nums[i])
+            } else if (arr.length === 2) {
+              if (arr[i] + nums[i] === 0) {
+                arr[i].push(nums[i])
+                arr[i].sort((a, b) => a - b)
+                res.push(arr[i].join())
+              }
+            }
+          }
+
+        }
+        if (map.has(0 - nums[i])) {
+          let arr = map.get(0 - nums[i])
+          console.log(arr)
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].length < 2) {
+              arr[i].push(nums[i])
+            } else if (arr.length === 2) {
+              if (arr[i] + nums[i] === 0) {
+                arr[i].push(nums[i])
+                arr[i].sort((a, b) => a - b)
+                res.push(arr[i].join())
+              }
+            }
+          }
+        }
+        map.set(nums[i], [[nums[i]]])
+      }
+      let set = new Set(res)
+      res = Array.from(set)
+      console.log(res)
+      return res.map(item => item.split(','))
+    };
+
+    threeSum([-1, 0, 1, 2, -1, -4])
+  </script>
+</body>
+
+</html>
