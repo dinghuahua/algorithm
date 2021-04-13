@@ -28,6 +28,10 @@ var removeElement2 = function (nums, val) {
 // "mississippi"
 // "issip"
 var strStr = function (haystack, needle) {
+  return haystack.indexOf(needle)
+};
+
+var strStr2 = function (haystack, needle) {
   if (!needle.length) return 0
   for (let i = 0; i < haystack.length; i++) {
     let j = 0
@@ -42,9 +46,8 @@ var strStr = function (haystack, needle) {
   }
   return -1
 };
-var strStr2 = function (haystack, needle) {
+var strStr3 = function (haystack, needle) {
   if (!needle.length) return 0
-  let j = 0, start = 0
   for (let i = 0; i < haystack.length; i++) {
     let j = 0
     for (; j < needle.length; j++) {
@@ -55,6 +58,13 @@ var strStr2 = function (haystack, needle) {
     if (j === needle.length) {
       return i
     }
+  }
+  return -1
+};
+var strStr4 = function (haystack, needle) {
+  if (!needle.length) return 0
+  for (let i = 0; i + needle.length - 1 < haystack.length; i++) {
+    if (haystack.slice(i, i + needle.length) === needle) return i
   }
   return -1
 };
