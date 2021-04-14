@@ -10,14 +10,14 @@ var removeElement = function (nums, val) {
     if (nums[i] === val) nums.splice(i, 1)
   }
   return nums.length
-};
+}
 var removeElement2 = function (nums, val) {
   let index = 0
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== val) nums[index++] = nums[i]
   }
   return index
-};
+}
 
 /**
  * 28. 实现 strStr()
@@ -29,7 +29,7 @@ var removeElement2 = function (nums, val) {
 // "issip"
 var strStr = function (haystack, needle) {
   return haystack.indexOf(needle)
-};
+}
 
 var strStr2 = function (haystack, needle) {
   if (!needle.length) return 0
@@ -45,7 +45,7 @@ var strStr2 = function (haystack, needle) {
     }
   }
   return -1
-};
+}
 var strStr3 = function (haystack, needle) {
   if (!needle.length) return 0
   for (let i = 0; i < haystack.length; i++) {
@@ -60,14 +60,14 @@ var strStr3 = function (haystack, needle) {
     }
   }
   return -1
-};
+}
 var strStr4 = function (haystack, needle) {
   if (!needle.length) return 0
   for (let i = 0; i + needle.length - 1 < haystack.length; i++) {
     if (haystack.slice(i, i + needle.length) === needle) return i
   }
   return -1
-};
+}
 
 /**
  * 125. 验证回文串
@@ -81,7 +81,7 @@ var isPalindrome = function (s) {
     if (s[left] !== s[right]) return false
   }
   return true
-};
+}
 
 var isPalindrome2 = function (s) {
   s = s.toLocaleLowerCase()
@@ -93,7 +93,7 @@ var isPalindrome2 = function (s) {
     return s[start] === s[end] && fun(start + 1, end - 1)
   }
   return fun(0, s.length - 1)
-};
+}
 
 /**
  * 167. 两数之和 II - 输入有序数组
@@ -111,7 +111,43 @@ var twoSum = function (numbers, target) {
       map.set(numbers[i], i)
     }
   }
-};
+}
+
+// 题解 双指针
+var twoSum2 = function (numbers, target) {
+  let i = 0
+  let j = numbers.length - 1
+  while (i < j) {
+    let sum = numbers[i] + numbers[j]
+    if (sum < target) {
+      i++
+    } else if (sum > target) {
+      j--
+    } else {
+      return [i + 1, j + 1]
+    }
+  }
+  return [-1, -1]
+}
+
+// 题解 二分查找
+var twoSum = function (numbers, target) {
+  for (let i = 0; i < numbers.length; ++i) {
+    let low = i + 1,
+      high = numbers.length - 1
+    while (low <= high) {
+      let mid = ~~((high - low) / 2) + low
+      if (numbers[mid] == target - numbers[i]) {
+        return [i + 1, mid + 1]
+      } else if (numbers[mid] > target - numbers[i]) {
+        high = mid - 1
+      } else {
+        low = mid + 1
+      }
+    }
+  }
+  return [-1, -1]
+}
 
 /**
  * 925. 长按键入
@@ -136,7 +172,8 @@ var isLongPressedNameError = function (name, typed) {
     if ((map2.get(c) || 0) < num) return false
   }
   return true
-};
+}
+
 var isLongPressedName = function (name, typed) {
   if (!name.length) return true
   if (!typed.length) return false
@@ -147,7 +184,7 @@ var isLongPressedName = function (name, typed) {
     else if (typed[i] !== typed[i - 1]) return false
   }
   return index === name.length
-};
+}
 
 
 /**
@@ -156,6 +193,20 @@ var isLongPressedName = function (name, typed) {
  * @return {number[][]}
  */
 // 超时
+// 题解都是直接丢双指针的解题思路，没有讲如何从暴力解逐渐推到双指针解法的
+// 下面讲一下我的理解： 首先，如果用暴力解，用一个三重循环遍历那么时间复杂度在O(N ^ 3) ，
+// 然后稍微进行优化，根据题目：找到三元组不能重复
+// 可以想到，如果要排序（能保证重复出现的数字在一起，并且时间复杂度为O(NlogN)，没啥影响）
+// 可以在第二重循环的枚举中找到不小于当前第一重循环的枚举元素
+// 和第三重循环同理，找到不小于第二重循环的枚举元素 => 那么能想到了排序，但是本质上还是三重循环，那么时间复杂度还是O(N^3) ，
+// 继续优化，将下面的两重循环变成一重循环：
+// 可以发现我们是固定了第一个数然后去找其他两个数的，那么可以将后面两个数看成一个数，
+// 那么问题就变成了 => 在有序数组中从[i + 1, len - 1]这个范围内找到一个符合要求的数，
+// 那么就变成了双指针问题 => ，而这个数的值不再是mid，而是两个边界left和right的和。
+// 而指针的移动条件就是：如果当前的sum值太大，那么右指针就移动；如果sum太小，那么左指针就移动；
+// 如果值正好，那么就是当前值，并且左指针右移，右指针左移（因为是找到所有满足的解）；
+// 循环的结束条件就是左右指针相遇 而双指针情况下，第二三重循环就从O(N^2)变成O(N)
+
 var threeSum = function (nums) {
   let map = new Map()
 
@@ -198,7 +249,8 @@ var threeSum2 = function (nums) {
 };
 
 var threeSumError = function (nums) {
-  let map = new Map(), res = []
+  let map = new Map(),
+    res = []
 
   for (let i = 0; i < nums.length; i++) {
     if (map.has(0 - nums[i])) {
@@ -222,8 +274,8 @@ var threeSumError = function (nums) {
   let set = new Set(res)
   res = Array.from(set)
 
-  return res.map(item => item.split(','))
-};
+  return res.map((item) => item.split(','))
+}
 
 // 题解
 var threeSum3 = function (nums) {
