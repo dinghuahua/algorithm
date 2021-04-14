@@ -157,31 +157,44 @@ var isLongPressedName = function (name, typed) {
  */
 // 超时
 var threeSum = function (nums) {
-  let map = new Map(), res = []
+  let map = new Map()
 
   for (let i = 0; i < nums.length; i++) {
-    if (map.has(0 - nums[i])) {
-      let arr = map.get(0 - nums[i])
-      console.log(arr)
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i].length < 2) {
-          arr[i].push(nums[i])
-        } else if (arr.length === 2) {
-          if (arr[i] + nums[i] === 0) {
-            arr[i].push(nums[i])
-            arr[i].sort((a, b) => a - b)
-            res.push(arr[i].join())
-          }
+    for (let j = i + 1; j < nums.length; j++) {
+      for (let k = j + 1; k < nums.length; k++) {
+        if (nums[i] + nums[j] + nums[k] === 0) {
+          let arr = [nums[i], nums[j], nums[k]]
+          arr.sort((a, b) => a - b)
+          map.set(arr.join(), arr)
         }
       }
-    } else {
-      map.set(nums[i], [nums[i]])
     }
   }
-  let set = new Set(res)
-  res = Array.from(set)
+  return Array.from(map.values())
+};
+var threeSum2 = function (nums) {
+  let set1 = new Set(), pre1 = Infinity
 
-  return res.map(item => item.split(','))
+  nums.sort((a, b) => a - b)
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] === pre1) continue
+    let pre2 = Infinity
+    for (let j = i + 1; j < nums.length; j++) {
+      if (nums[j] === pre2) continue
+      let pre3 = Infinity
+      for (let k = j + 1; k < nums.length; k++) {
+        if (nums[k] === pre3) continue
+        if (nums[i] + nums[j] + nums[k] === 0) {
+          let arr = [nums[i], nums[j], nums[k]]
+          set1.add(arr)
+        }
+        pre3 = nums[k]
+      }
+      pre2 = nums[j]
+    }
+    pre1 = nums[i]
+  }
+  return Array.from(set1)
 };
 
 var threeSumError = function (nums) {
@@ -213,3 +226,43 @@ var threeSumError = function (nums) {
 };
 
 // 题解
+var threeSum3 = function (nums) {
+  let n = nums.length, ans = [];
+  nums.sort((a, b) => a - b);
+  // 枚举 a
+  for (let first = 0; first < n; ++first) {
+    // 需要和上一次枚举的数不相同
+    if (first > 0 && nums[first] == nums[first - 1]) {
+      continue;
+    }
+    // c 对应的指针初始指向数组的最右端
+    let third = n - 1;
+    let target = -nums[first];
+    // 枚举 b
+    for (let second = first + 1; second < n; ++second) {
+      // 需要和上一次枚举的数不相同
+      if (second > first + 1 && nums[second] == nums[second - 1]) {
+        continue;
+      }
+      // 这个方法就是我们常说的「双指针」，当我们需要枚举数组中的两个元素时，如果我们发现随着第一个元素的递增，第二个元素是递减的，
+      // 那么就可以使用双指针的方法，将枚举的时间复杂度从 O(N^2)减少至 O(N)。
+      // 为什么是 O(N)呢？这是因为在枚举的过程每一步中，「左指针」会向右移动一个位置（也就是题目中的 b），
+      // 而「右指针」会向左移动若干个位置，这个与数组的元素有关，但我们知道它一共会移动的位置数为 O(N)，
+      // 均摊下来，每次也向左移动一个位置，因此时间复杂度为 O(N)。
+
+      // 需要保证 b 的指针在 c 的指针的左侧
+      while (second < third && nums[second] + nums[third] > target) {
+        --third;
+      }
+      // 如果指针重合，随着 b 后续的增加
+      // 就不会有满足 a+b+c=0 并且 b<c 的 c 了，可以退出循环
+      if (second == third) {
+        break;
+      }
+      if (nums[second] + nums[third] == target) {
+        ans.push([nums[first], nums[second], nums[third]]);
+      }
+    }
+  }
+  return ans;
+};
