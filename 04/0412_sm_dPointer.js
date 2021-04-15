@@ -186,7 +186,6 @@ var isLongPressedName = function (name, typed) {
   return index === name.length
 }
 
-
 /**
  * 15. 三数之和
  * @param {number[]} nums
@@ -222,9 +221,10 @@ var threeSum = function (nums) {
     }
   }
   return Array.from(map.values())
-};
+}
 var threeSum2 = function (nums) {
-  let set1 = new Set(), pre1 = Infinity
+  let set1 = new Set(),
+    pre1 = Infinity
 
   nums.sort((a, b) => a - b)
   for (let i = 0; i < nums.length; i++) {
@@ -246,7 +246,7 @@ var threeSum2 = function (nums) {
     pre1 = nums[i]
   }
   return Array.from(set1)
-};
+}
 
 var threeSumError = function (nums) {
   let map = new Map(),
@@ -279,22 +279,23 @@ var threeSumError = function (nums) {
 
 // 题解
 var threeSum3 = function (nums) {
-  let n = nums.length, ans = [];
-  nums.sort((a, b) => a - b);
+  let n = nums.length,
+    ans = []
+  nums.sort((a, b) => a - b)
   // 枚举 a
   for (let first = 0; first < n; ++first) {
     // 需要和上一次枚举的数不相同
     if (first > 0 && nums[first] == nums[first - 1]) {
-      continue;
+      continue
     }
     // c 对应的指针初始指向数组的最右端
-    let third = n - 1;
-    let target = -nums[first];
+    let third = n - 1
+    let target = -nums[first]
     // 枚举 b
     for (let second = first + 1; second < n; ++second) {
       // 需要和上一次枚举的数不相同
       if (second > first + 1 && nums[second] == nums[second - 1]) {
-        continue;
+        continue
       }
       // 这个方法就是我们常说的「双指针」，当我们需要枚举数组中的两个元素时，如果我们发现随着第一个元素的递增，第二个元素是递减的，
       // 那么就可以使用双指针的方法，将枚举的时间复杂度从 O(N^2)减少至 O(N)。
@@ -304,17 +305,17 @@ var threeSum3 = function (nums) {
 
       // 需要保证 b 的指针在 c 的指针的左侧
       while (second < third && nums[second] + nums[third] > target) {
-        --third;
+        --third
       }
       // 如果指针重合，随着 b 后续的增加
       // 就不会有满足 a+b+c=0 并且 b<c 的 c 了，可以退出循环
       if (second == third) {
-        break;
+        break
       }
       if (nums[second] + nums[third] == target) {
-        ans.push([nums[first], nums[second], nums[third]]);
+        ans.push([nums[first], nums[second], nums[third]])
       }
     }
   }
-  return ans;
-};
+  return ans
+}

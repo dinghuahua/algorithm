@@ -24,6 +24,7 @@ var threeSumClosestError = function (nums, target) {
   return map.get(min)
 }
 
+// 题解
 var threeSumClosest2 = function (nums, target) {
   nums.sort((a, b) => a - b)
   let n = nums.length,
