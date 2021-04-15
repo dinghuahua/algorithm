@@ -1,23 +1,4 @@
 /**
- * 19. 删除链表的倒数第 N 个结点
- * @param {ListNode} head
- * @param {number} n
- * @return {ListNode}
- */
-var removeNthFromEnd = function (head, n) {
-  let cur = new ListNode(0, head), first = head, second = cur;
-  for (let i = 0; i < n; ++i) {
-    first = first.next;
-  }
-  while (first) {
-    first = first.next;
-    second = second.next;
-  }
-  second.next = second.next.next;
-  return cur.next;
-}
-
-/**
  * 86. 分隔链表
  * @param {ListNode} head
  * @param {number} x

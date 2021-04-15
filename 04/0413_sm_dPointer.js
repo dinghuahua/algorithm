@@ -19,6 +19,15 @@ var moveZeroes2 = function (nums) {
     nums[i] = 0
   }
 }
+var moveZeroes3 = function (nums) {
+  let index = -1
+  for (let i = 0; i < nums.length; i++) {
+    if (!nums[i]) {
+      index = i
+
+    }
+  }
+}
 
 /**
  * 344. 反转字符串
@@ -37,6 +46,8 @@ var reverseString = function (s) {
  * @return {string}
  */
 var reverseVowels = function (s) {
+  // TODO:
+  //  let res = ''
   const arr = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
   for (let i = 0, j = s.length - 1; i <= j;) {
     if (arr.includes(s[i]) && arr.includes(s[j])) {
@@ -60,6 +71,7 @@ var reverseVowels = function (s) {
  * @return {boolean}
  */
 var backspaceCompare = function (s, t) {
+  // TODO： stack 进出栈 保存的是字符
   const formatStr = (str) => {
     let num = 0
     for (let i = str.length - 1; i >= 0; i--) {
@@ -82,6 +94,7 @@ var backspaceCompare = function (s, t) {
  * @return {number[]}
  */
 var sortedSquares = function (nums) {
+  // TODO： 最大的值 只会出现在两端 0为分界线 左侧单调递减 右侧单调递增
   return nums.map((i) => i * i).sort((a, b) => a - b)
 }
 
