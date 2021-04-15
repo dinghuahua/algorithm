@@ -38,7 +38,7 @@ var reverseString = function (s) {
  */
 var reverseVowels = function (s) {
   const arr = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
-  for (let i = 0, j = s.length - 1; i <= j; ) {
+  for (let i = 0, j = s.length - 1; i <= j;) {
     if (arr.includes(s[i]) && arr.includes(s[j])) {
       if (s[i] !== s[j])
         s = s.slice(0, i) + s[j] + s.slice(i + 1, j) + s[i] + s.slice(j + 1)
@@ -152,7 +152,7 @@ var fourSum = function (nums, target) {
   }
   return res
 }
-// 题解 还没看懂
+// 题解
 var fourSum = function (nums, target) {
   const quadruplets = []
   if (nums.length < 4) {
@@ -185,6 +185,7 @@ var fourSum = function (nums, target) {
       }
       let left = j + 1,
         right = length - 1
+
       while (left < right) {
         const sum = nums[i] + nums[j] + nums[left] + nums[right]
         if (sum === target) {
