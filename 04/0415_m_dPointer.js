@@ -5,14 +5,17 @@
  * @return {ListNode}
  */
 var partitionError = function (head, x) {
-  let xNode = head, left = head
+  let xNode = head,
+    left = head
 
   // console.log(head,x)
   while (xNode && xNode.val !== x) {
     xNode = xNode.next
   }
 
-  let preL = head, preR = xNode, right = xNode.next
+  let preL = head,
+    preR = xNode,
+    right = xNode.next
   while (left.val !== x) {
     if (left.val > x) {
       while (right) {
@@ -45,16 +48,19 @@ var partitionError = function (head, x) {
   }
 
   return head
-};
+}
 
 var partitionError = function (head, x) {
-  let xNode = head, left = head
+  let xNode = head,
+    left = head
 
   while (xNode && xNode.val !== x) {
     xNode = xNode.next
   }
 
-  let preL = head, preR = xNode, right = xNode.next
+  let preL = head,
+    preR = xNode,
+    right = xNode.next
 
   while (right) {
     while (right && right.val >= x) {
@@ -72,33 +78,101 @@ var partitionError = function (head, x) {
 
     right = rNext?.next
     preR.next = right
-
   }
 
   return head
-};
+}
 
 var partition = function (head, x) {
   // 设 smallHead 和 largeHead 分别为两个链表的哑节点
   // 即它们的next 指针指向链表的头节点，这样做的目的是为了更方便地处理头节点为空的边界条件
-  let small = new ListNode(0);
-  const smallHead = small;
-  let large = new ListNode(0);
-  const largeHead = large;
+  let small = new ListNode(0)
+  const smallHead = small
+  let large = new ListNode(0)
+  const largeHead = large
 
   while (head !== null) {
     if (head.val < x) {
-      small.next = head;
-      small = small.next;
+      small.next = head
+      small = small.next
     } else {
-      large.next = head;
-      large = large.next;
+      large.next = head
+      large = large.next
     }
-    head = head.next;
+    head = head.next
   }
   // 遍历结束后，我们将 large 的 next 指针置空，这是因为当前节点复用的是原链表的节点，
   // 而其 next 指针可能指向一个小于 xx 的节点，我们需要切断这个引用
-  large.next = null;
-  small.next = largeHead.next;
-  return smallHead.next;
-};
+  large.next = null
+  small.next = largeHead.next
+  return smallHead.next
+}
+
+/**
+ * 61. 旋转链表
+ * @param {ListNode} head
+ * @param {number} k
+ * @return {ListNode}
+ */
+// [1] 1
+var rotateRightError = function (head, k) {
+  if (!k || !head || !head.next) return head
+  let cur = new ListNode(0, head),
+    first = head,
+    second = cur,
+    lenHead = head,
+    len = 0
+
+  while (lenHead) {
+    len++
+    lenHead = lenHead.next
+  }
+  k = k % len
+  while (k) {
+    k--
+    first = first.next
+  }
+
+  while (first) {
+    first = first.next
+    second = second.next
+  }
+  let tail = second.next
+  second.next = null
+  let end = tail
+  while (end && end.next) {
+    end = end.next
+  }
+  end.next = head
+
+  return tail
+}
+// 题解
+var rotateRight = function (head, k) {
+  if (k === 0 || !head || !head.next) {
+    return head
+  }
+  let n = 1
+  let cur = head
+  while (cur.next) {
+    cur = cur.next
+    n++
+  }
+
+  // 然后我们找到新链表的最后一个节点（即原链表的第(n - 1) - (k mod n) 个节点），
+  // 将当前闭合为环的链表断开，即可得到我们所需要的结果
+  let add = n - (k % n)
+  if (add === n) {
+    return head
+  }
+
+  cur.next = head
+  while (add) {
+    cur = cur.next
+    add--
+  }
+
+  const ret = cur.next
+  cur.next = null
+  return ret
+}
