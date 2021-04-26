@@ -56,7 +56,28 @@ var sortColors3 = function (nums) {
     }
   }
 }
-
+//
+var sortFun = function (nums) {
+  // p0奇数  p1偶数
+  let p0 = 0,
+    p1 = 0
+  // 1,3,5,2,4, 0,885685
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2) {
+      ;[nums[p0], nums[i]] = [nums[i], nums[p0]]
+      if (p0 < p1) {
+        ;[nums[p1], nums[i]] = [nums[i], nums[p1]]
+      }
+      p0++
+      p1++
+    } else {
+      ;[nums[p1], nums[i]] = [nums[i], nums[p1]]
+      p1++
+    }
+  }
+  console.log(nums)
+}
+sortFun([0, 4, 1, 3, 4, 2, 5, 7, 9])
 /**
  * 80. 删除有序数组中的重复项 II
  * @param {number[]} nums
@@ -95,4 +116,23 @@ var removeDuplicates = function (nums) {
     ++fast
   }
   return slow
+}
+
+const reverse = (head) => {
+  let cur = null
+  while (head) {
+    let next = head.next
+    head.next = cur
+    cur = head
+    head = next
+  }
+  return cur
+}
+
+const reverse = (head, cur = null) => {
+  if (!head) return cur
+  let next = head.next
+  head.next = cur
+  // cur = head
+  return reverse(next, head)
 }
