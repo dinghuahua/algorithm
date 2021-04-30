@@ -4,11 +4,6 @@
  * @param {number} k
  * @return {number}
  */
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number}
- */
 var numberOfSubarraysError = function (nums, k) {
   let odd = []
   for (let i = 0; i < nums.length; i++) {
@@ -70,8 +65,28 @@ var numberOfSubarraysError2 = function (nums, k) {
   }
   return num
 }
-
 var numberOfSubarrays = function (nums, k) {
+  let odd = []
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] % 2) odd.push(i)
+  }
+  if (odd.length < k) return 0
+  // num.length=3
+  // [0, 1, 3];
+  // [-1,0,1,3,4]
+  // 第0个和最后一个为边界情况
+  odd.unshift(-1)
+  odd.push(nums.length)
+  // console.log(odd)
+  let num = 0
+  for (let first = 1, last = k; last < odd.length - 1; first++, last++) {
+    num += (odd[first] - odd[first - 1]) * (odd[last + 1] - odd[last])
+  }
+  return num
+}
+
+// 题解
+var numberOfSubarrays2 = function (nums, k) {
   let n = nums.length
   let odd = new Array(n + 2)
   let ans = 0,
