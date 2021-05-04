@@ -18,7 +18,7 @@ var replaceDigits = function (s) {
  * 5731. 座位预约管理系统
  * @param {number} n
  */
-// 不知道这道题在考什么
+// 不知道这道题在考什么  优先队列
 var SeatManager = function (n) {
   this.seats = new Array(n).fill(true)
 }
@@ -71,3 +71,11 @@ var maximumElementAfterDecrementingAndRearranging = function (arr) {
   }
   return max
 }
+
+/**
+ * 5733. 最近的房间
+ * @param {number[][]} rooms
+ * @param {number[][]} queries
+ * @return {number[]}
+ */
+var closestRoom = function (rooms, queries) {}

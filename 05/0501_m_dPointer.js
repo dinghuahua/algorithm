@@ -4,6 +4,7 @@
  * @param {number} k
  * @return {number}
  */
+// 如何优化，写的有点复杂
 var longestOnes = function (nums, k) {
   if (nums.length <= 1) return k >= 0 ? 1 : nums[0]
 
