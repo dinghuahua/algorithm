@@ -1,0 +1,71 @@
+<!DOCTYPE html5>
+<html>
+    <head>
+    </head>
+    <body>
+        <div id="app"></div>
+        <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script type="text/babel">
+            const e = React.createElement;
+   function FancyBorder(props) {
+       console.log(props)
+        return (
+            <div className={'FancyBorder FancyBorder-' + props.color}>
+                {props.children}
+                 <input ref={props.inputRef} />
+            </div>
+        );
+    }
+            class LikeButton extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { liked: false };
+
+                    this.inputElement = React.createRef();
+                }
+                deleteRow(){
+                    console.log(arguments)
+                    console.log(this.inputElement)
+                    this.inputElement.current.focus()
+                }
+                render() {
+                    if (this.state.liked) {
+                        return 'You liked this.';
+                    }
+
+                    // return e(
+                    //     'button',
+                    //     { onClick: () => this.setState({ liked: true }) },
+                    //     'Like'
+                    // );
+                    const count = 0;
+                    return (
+                        <div>
+                            <button onClick={() => this.setState({ liked: true })}>
+                                Like
+                            </button>
+                            <button onClick={(e) => this.deleteRow('id', e)}>Delete Row1</button>
+                            <button onClick={this.deleteRow.bind(this, 'id')}>Delete Row2</button>
+                            <div>
+                                {count && <h1>Messages: {count}</h1>}
+                            </div>
+                        
+                            <input value={'undefined'} />
+                        
+                            <FancyBorder inputRef={this.inputElement}>
+                                <h1 className="Dialog-title"> Welcome </h1>
+                                <p className="Dialog-message"> Thank you for visiting our spacecraft!</p>
+                            </FancyBorder>
+                            <input type="text" />
+                        </div>)
+                    ;
+                }
+            }
+
+            const domContainer = document.querySelector('#app');
+            ReactDOM.render(e(LikeButton), domContainer);
+        </script>
+    </body>
+</html>
